@@ -1,6 +1,7 @@
 package com.example.sicrediapp.api.controllers;
 
 import com.example.sicrediapp.api.dtos.AssociateDTO;
+import com.example.sicrediapp.api.dtos.AssociateListDTO;
 import com.example.sicrediapp.services.AssociateService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "associates")
@@ -29,4 +31,10 @@ public class AssociateController {
         return associateService.findById(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/all", produces = "application/json")
+    @Operation(summary = "show all associates", description = "Show all associates informations")
+    public List<AssociateListDTO> findAll(){
+        return associateService.findAll();
+    }
 }

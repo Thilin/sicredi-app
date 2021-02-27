@@ -2,6 +2,9 @@ package com.example.sicrediapp.dtos;
 
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -10,6 +13,8 @@ import lombok.*;
 public class ScheduleDTO {
 
     private Long id;
+    @NotNull
     private Long duration;
-    private boolean isOpen;
+    @NotNull
+    private Boolean isOpen;
 }

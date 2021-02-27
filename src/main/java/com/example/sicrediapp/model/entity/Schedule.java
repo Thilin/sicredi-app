@@ -1,4 +1,4 @@
-package com.example.sicrediapp.domains;
+package com.example.sicrediapp.model.entity;
 
 import lombok.*;
 
@@ -10,5 +10,5 @@ public class Schedule {
 
     private Long id;
     private Long duration;
-    private boolean isOpen;
+    private Boolean isOpen;
 }

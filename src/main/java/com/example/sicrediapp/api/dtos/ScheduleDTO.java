@@ -1,8 +1,7 @@
-package com.example.sicrediapp.dtos;
+package com.example.sicrediapp.api.dtos;
 
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Setter

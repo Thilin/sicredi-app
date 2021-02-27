@@ -17,8 +17,6 @@ public class Schedule {
     @Column(name = "SCH_ID")
     private Long id;
 
-    @Column(name = "SCH_DURATION")
-    private Long duration;
-    @Column(name = "SCH_ISOPEN")
-    private boolean isOpen;
+    @Column(name = "SCH_DESCRIPTION")
+    private String description;
 }

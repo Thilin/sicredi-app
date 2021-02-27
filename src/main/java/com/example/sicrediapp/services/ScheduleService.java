@@ -1,7 +1,7 @@
 package com.example.sicrediapp.services;
 
-import com.example.sicrediapp.model.entity.Schedule;
+import com.example.sicrediapp.api.dtos.ScheduleDTO;
 
 public interface ScheduleService {
-    Schedule save(Schedule any);
+    void save(ScheduleDTO dto);
 }

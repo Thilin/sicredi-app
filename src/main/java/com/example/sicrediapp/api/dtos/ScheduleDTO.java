@@ -1,8 +1,9 @@
 package com.example.sicrediapp.api.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 @Setter
 @Getter
@@ -11,9 +12,8 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class ScheduleDTO {
 
-    private Long id;
-    @NotNull
-    private Long duration;
-    @NotNull
-    private Boolean isOpen;
+    @NotEmpty
+    @Schema(description = "Schedule description", example = "Dividendos")
+    private String description;
+
 }

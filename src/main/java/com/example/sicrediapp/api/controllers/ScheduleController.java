@@ -3,28 +3,25 @@ package com.example.sicrediapp.api.controllers;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
 import com.example.sicrediapp.services.ScheduleService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/api/schedules")
+@RequestMapping(value = "/schedules")
 public class ScheduleController {
 
+    @Autowired
     private ScheduleService scheduleService;
-    private ModelMapper modelMapper;
-
-    public ScheduleController(ScheduleService scheduleService, ModelMapper modelMapper){
-        this.scheduleService = scheduleService;
-        this.modelMapper = modelMapper;
-    }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
+    @Operation(summary = "Register a schedule", description = "Register a schedule to be voted")
     @ResponseStatus(HttpStatus.CREATED)
-    public ScheduleDTO create(@Valid @RequestBody ScheduleDTO dto){
-        var schedule = modelMapper.map(dto, Schedule.class);
-        return modelMapper.map(scheduleService.save(schedule), ScheduleDTO.class);
+    public void create(@Valid @RequestBody ScheduleDTO dto){
+        scheduleService.save(dto);
     }
 }

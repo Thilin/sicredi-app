@@ -1,16 +1,14 @@
-package com.example.sicrediapp.controllers;
+package com.example.sicrediapp.api;
 
-import com.example.sicrediapp.domains.Schedule;
-import com.example.sicrediapp.dtos.ScheduleDTO;
-import com.example.sicrediapp.exceptions.InvalidScheduleDurationException;
+import com.example.sicrediapp.model.entity.Schedule;
+import com.example.sicrediapp.api.dtos.ScheduleDTO;
+import com.example.sicrediapp.api.exceptions.InvalidScheduleDurationException;
 import com.example.sicrediapp.services.ScheduleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,7 +41,10 @@ public class ScheduleControllerTest {
     @DisplayName("Create a new schedule with success")
     public void createScheduleTest() throws Exception {
 
-        var dto = buildScheduleDTO();
+        var dto = ScheduleDTO.builder()
+                .duration(1L)
+                .isOpen(false)
+                .build();
 
         var savedSchedule = Schedule.builder()
                 .id(1L)
@@ -63,7 +64,7 @@ public class ScheduleControllerTest {
         mvc.perform(request).andExpect(status().isCreated())
                 .andExpect(jsonPath("id").value(1L))
                 .andExpect(jsonPath("duration").value(dto.getDuration()))
-                .andExpect(jsonPath("open").isBoolean());
+                .andExpect(jsonPath("isOpen").value(dto.getIsOpen()));
     }
 
     @Test

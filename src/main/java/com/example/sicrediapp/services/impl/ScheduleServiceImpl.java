@@ -1,12 +1,16 @@
 package com.example.sicrediapp.services.impl;
 
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
+import com.example.sicrediapp.api.dtos.ScheduleListDTO;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.services.ScheduleService;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -27,5 +31,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         var dto = new ScheduleDTO();
         dto.setDescription(schedule.getDescription());
         return dto;
+    }
+
+    @Override
+    public List<ScheduleListDTO> findAll() {
+        List<Schedule> schedules = scheduleRepository.findAll();
+        return schedules.stream().map(schedule -> {
+            var dto = new ScheduleListDTO();
+            dto.setId(schedule.getId());
+            dto.setDescription(schedule.getDescription());
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

@@ -1,7 +1,11 @@
 package com.example.sicrediapp.api.exceptions;
 
-public class InvalidScheduleDurationException extends RuntimeException {
-    public InvalidScheduleDurationException(String s) {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class InvalidSessionDurationException extends RuntimeException {
+    public InvalidSessionDurationException(String s) {
         super(s);
     }
 }

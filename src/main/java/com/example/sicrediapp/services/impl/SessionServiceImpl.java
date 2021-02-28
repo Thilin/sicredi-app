@@ -32,4 +32,14 @@ public class SessionServiceImpl implements SessionService {
 
         sessionRepository.save(session);
     }
+
+    @Override
+    public SessionDTO findById(Long id) {
+        var dto = new SessionDTO();
+        var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Sessão não encontrada"));
+        dto.setDuration(session.getDuration());
+        dto.setOpen(session.isOpen());
+        dto.setScheduleId(session.getSchedule().getId());
+        return dto;
+    }
 }

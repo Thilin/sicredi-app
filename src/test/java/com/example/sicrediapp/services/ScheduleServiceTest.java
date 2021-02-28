@@ -1,16 +1,6 @@
 package com.example.sicrediapp.services;
 
-import com.example.sicrediapp.model.entity.Schedule;
-import com.example.sicrediapp.api.exceptions.InvalidScheduleDurationException;
-import com.example.sicrediapp.model.repositories.ScheduleRepository;
-import com.example.sicrediapp.services.impl.ScheduleServiceImpl;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 

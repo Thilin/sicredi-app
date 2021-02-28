@@ -1,6 +1,7 @@
 package com.example.sicrediapp.services.impl;
 
 import com.example.sicrediapp.api.dtos.SessionDTO;
+import com.example.sicrediapp.api.dtos.SessionListDTO;
 import com.example.sicrediapp.api.exceptions.InvalidSessionDurationException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Session;
@@ -9,6 +10,9 @@ import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SessionServiceImpl implements SessionService {
@@ -41,5 +45,18 @@ public class SessionServiceImpl implements SessionService {
         dto.setOpen(session.isOpen());
         dto.setScheduleId(session.getSchedule().getId());
         return dto;
+    }
+
+    @Override
+    public List<SessionListDTO> findAll() {
+        List<Session> sessions = sessionRepository.findAll();
+        return sessions.stream().map(session -> {
+            var dto = new SessionListDTO();
+            dto.setId(session.getId());
+            dto.setDuration(session.getDuration());
+            dto.setOpen(session.isOpen());
+            dto.setScheduleId(session.getSchedule().getId());
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

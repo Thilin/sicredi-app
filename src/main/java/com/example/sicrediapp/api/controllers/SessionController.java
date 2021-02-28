@@ -20,7 +20,7 @@ public class SessionController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json", produces = "application/json")
     @Operation(summary = "Create session", description = "Create a session. It will be created closed by default")
-    public void create(@RequestBody @Valid SessionDTO dto){
+    public void create(@RequestBody @Valid SessionCreateDTO dto){
         sessionService.save(dto);
     }
 

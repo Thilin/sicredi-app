@@ -1,5 +1,6 @@
 package com.example.sicrediapp.services.impl;
 
+import com.example.sicrediapp.api.dtos.SessionCreateDTO;
 import com.example.sicrediapp.api.dtos.SessionDTO;
 import com.example.sicrediapp.api.dtos.SessionListDTO;
 import com.example.sicrediapp.api.exceptions.InvalidSessionDurationException;
@@ -24,13 +25,13 @@ public class SessionServiceImpl implements SessionService {
     private ScheduleRepository scheduleRepository;
 
     @Override
-    public void save(SessionDTO dto) {
+    public void save(SessionCreateDTO dto) {
         if(dto.getDuration() < 1)
             throw new InvalidSessionDurationException("A duração da sessão não pode ser menor que 1 minuto");
 
         var session = new Session();
         session.setDuration(dto.getDuration());
-        session.setOpen(dto.isOpen());
+        session.setOpen(false);
         var schedule = scheduleRepository.findById(dto.getScheduleId()).orElseThrow(() -> new ObjectNotFoundException("Pauta não encontrada"));
         session.setSchedule(schedule);
 

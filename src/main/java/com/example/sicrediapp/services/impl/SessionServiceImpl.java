@@ -60,4 +60,11 @@ public class SessionServiceImpl implements SessionService {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public void openSession(Long id) {
+        var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Sessão não encontrada"));
+        session.setOpen(true);
+        sessionRepository.save(session);
+    }
 }

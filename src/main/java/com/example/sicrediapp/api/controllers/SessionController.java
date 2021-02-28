@@ -37,4 +37,11 @@ public class SessionController {
     public List<SessionListDTO> findAll(){
         return sessionService.findAll();
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(value = "/{id}", produces = "application/json")
+    @Operation(summary = "Open a session", description = "Open a Session giving its id")
+    public void openSession(@PathVariable Long id){
+        sessionService.openSession(id);
+    }
 }

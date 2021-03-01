@@ -2,11 +2,10 @@ package com.example.sicrediapp.services.impl;
 
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
 import com.example.sicrediapp.api.dtos.ScheduleListDTO;
+import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.services.ScheduleService;
-import org.hibernate.ObjectNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +14,11 @@ import java.util.stream.Collectors;
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
-    @Autowired
     private ScheduleRepository scheduleRepository;
 
+    public ScheduleServiceImpl(ScheduleRepository scheduleRepository){
+        this.scheduleRepository = scheduleRepository;
+    }
     @Override
     public void save(ScheduleDTO dto) {
         var schedule = new Schedule();
@@ -27,7 +28,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ScheduleDTO findById(Long id) {
-        var schedule = scheduleRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException(id, "schedule"));
+        var schedule = scheduleRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Pauta não encontrada."));
         var dto = new ScheduleDTO();
         dto.setDescription(schedule.getDescription());
         return dto;

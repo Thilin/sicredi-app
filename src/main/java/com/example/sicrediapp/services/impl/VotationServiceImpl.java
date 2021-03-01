@@ -5,16 +5,18 @@ import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
 import com.example.sicrediapp.services.VotationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VotationServiceImpl implements VotationService {
 
-    @Autowired
     private VotationRepository votationRepository;
-    @Autowired
     private SessionRepository sessionRepository;
+
+    public VotationServiceImpl(VotationRepository votationRepository, SessionRepository sessionRepository){
+        this.votationRepository = votationRepository;
+        this.sessionRepository = sessionRepository;
+    }
 
     @Override
     public VoteCountDTO countVotes(Long sessionId) {

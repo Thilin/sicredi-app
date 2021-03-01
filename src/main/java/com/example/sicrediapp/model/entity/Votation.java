@@ -1,6 +1,7 @@
 package com.example.sicrediapp.model.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "TB_VOTATION")
+@Builder
 public class Votation {
 
     @Id

@@ -83,10 +83,10 @@ public class SessionServiceImpl implements SessionService {
                 e.printStackTrace();
             }
             session.setOpen(false);
-        sessionRepository.save(session);
-        var voteCount = votationService.countVotes(session.getId());
-        System.out.println("Votos SIM: "+voteCount.getVotesYes());
-        System.out.println("Votos NÃO: "+voteCount.getVotesNo());
+            sessionRepository.save(session);
+            var voteCount = votationService.countVotes(session.getId());
+            System.out.println("Votos SIM: "+voteCount.getVotesYes());
+            System.out.println("Votos NÃO: "+voteCount.getVotesNo());
         }).start();
     }
 }

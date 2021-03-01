@@ -59,4 +59,24 @@ public class SessionServiceTest {
         assertThat(savedSession.getSchedule()).isEqualTo(savedSchedule);
         assertThat(savedSession.getDuration()).isGreaterThanOrEqualTo(1);
     }
+
+    @Test
+    @DisplayName("Should return a session by Id")
+    public void shouldFindSessionById(){
+        Long id = 1L;
+        var schedule = Schedule.builder().description("Dividendos").build();
+        var savedSchedule = Schedule.builder().id(1L).description("Dividendos").build();
+
+        Mockito.when(scheduleRepository.save(schedule)).thenReturn(savedSchedule);
+        Mockito.when(scheduleRepository.findById(1L)).thenReturn(Optional.of(savedSchedule));
+
+        var session = Session.builder().isOpen(false).duration(1L).schedule(savedSchedule).build();
+
+        Mockito.when(sessionRepository.findById(id)).thenReturn(Optional.of(session));
+
+        var dto = sessionService.findById(id);
+
+        assertThat(dto.getDuration()).isEqualTo(session.getDuration());
+        assertThat(dto.getScheduleId()).isEqualTo(session.getSchedule().getId());
+    }
 }

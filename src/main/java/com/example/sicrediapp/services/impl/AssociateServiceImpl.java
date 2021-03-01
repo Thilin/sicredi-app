@@ -12,7 +12,6 @@ import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
 import com.example.sicrediapp.services.AssociateService;
 import com.example.sicrediapp.services.CheckCPFService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,14 +20,19 @@ import java.util.stream.Collectors;
 @Service
 public class AssociateServiceImpl implements AssociateService {
 
-    @Autowired
-    AssociateRepository associateRepository;
-    @Autowired
-    VotationRepository votationRepository;
-    @Autowired
-    SessionRepository sessionRepository;
-    @Autowired
-    CheckCPFService checkCPFService;
+
+    private AssociateRepository associateRepository;
+    private VotationRepository votationRepository;
+    private SessionRepository sessionRepository;
+    private CheckCPFService checkCPFService;
+
+    public AssociateServiceImpl(AssociateRepository associateRepository, VotationRepository votationRepository,
+                                SessionRepository sessionRepository, CheckCPFService checkCPFService){
+        this.associateRepository = associateRepository;
+        this.votationRepository = votationRepository;
+        this.sessionRepository = sessionRepository;
+        this.checkCPFService = checkCPFService;
+    }
 
     @Override
     public void save(AssociateDTO dto) {

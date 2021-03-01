@@ -4,7 +4,6 @@ import com.example.sicrediapp.api.dtos.AssociateDTO;
 import com.example.sicrediapp.api.dtos.AssociateListDTO;
 import com.example.sicrediapp.services.AssociateService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +14,11 @@ import java.util.List;
 @RequestMapping(value = "/associates")
 public class AssociateController {
 
-    @Autowired
-    AssociateService associateService;
+    private AssociateService associateService;
+
+    public AssociateController(AssociateService associateService){
+        this.associateService = associateService;
+    }
 
     @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
     @Operation(summary = "Register an associate", description = "Register an associate to vote in a schedule")

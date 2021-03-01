@@ -2,6 +2,7 @@ package com.example.sicrediapp.services.impl;
 
 import com.example.sicrediapp.api.dtos.AssociateDTO;
 import com.example.sicrediapp.api.dtos.AssociateListDTO;
+import com.example.sicrediapp.api.exceptions.DuplicateCPFException;
 import com.example.sicrediapp.api.exceptions.DuplicateVoteSameSessionException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.api.exceptions.SessionClosedException;
@@ -36,6 +37,8 @@ public class AssociateServiceImpl implements AssociateService {
 
     @Override
     public void save(AssociateDTO dto) {
+        if(associateRepository.existsByCpf(dto.getCpf()))
+            throw new DuplicateCPFException("O CPF já existe na base de dados");
         var associate = new Associate();
         associate.setName(dto.getName());
         associate.setCpf(dto.getCpf());

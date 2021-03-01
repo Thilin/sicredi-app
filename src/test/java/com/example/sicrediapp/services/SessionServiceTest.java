@@ -106,4 +106,18 @@ public class SessionServiceTest {
 
         assertThat(expectedMessage).isEqualTo(actualMessage);
     }
+
+    @Test
+    @DisplayName("Should return not found when try to create a session with a schedule that not exists")
+    public void ShouldReturnNotFoundWhenCreatingSessionWithNoExistingSchedule(){
+
+        var session = SessionCreateDTO.builder().duration(1L).build();
+
+        Exception exception = org.junit.jupiter.api.Assertions.assertThrows(ObjectNotFoundException.class, () -> sessionService.save(session));
+
+        String expectedMessage = "Pauta não encontrada";
+        String actualMessage = exception.getMessage();
+
+        assertThat(expectedMessage).isEqualTo(actualMessage);
+    }
 }

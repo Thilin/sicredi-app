@@ -4,6 +4,7 @@ import com.example.sicrediapp.api.dtos.AssociateDTO;
 import com.example.sicrediapp.api.dtos.AssociateListDTO;
 import com.example.sicrediapp.api.exceptions.DuplicateCPFException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
+import com.example.sicrediapp.api.exceptions.SessionClosedException;
 import com.example.sicrediapp.model.entity.Associate;
 import com.example.sicrediapp.model.entity.Session;
 import com.example.sicrediapp.model.entity.Votation;
@@ -136,5 +137,23 @@ public class AssociateServiceTest {
         assertThat(savedVotation.getId()).isNotNull();
         assertThat(session.isOpen()).isTrue();
         assertThat(savedVotation.getVote()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Should throw an exception when try to vote an the session is closed")
+    public void shouldThrowExceptionWhenVoteSessionClosedTest(){
+
+        boolean vote = false;
+        var session = Session.builder().id(1L).isOpen(false).build();
+        Mockito.when(sessionRepository.findById(1L)).thenReturn(Optional.of(session));
+        var associate = Associate.builder().id(1L).build();
+        Mockito.when(associateRepository.findById(1L)).thenReturn(Optional.of(associate));
+
+        Exception exception = org.junit.jupiter.api.Assertions.assertThrows(SessionClosedException.class, () -> associateService.vote(session.getId(), vote, associate.getId()));
+        String expectedMessage = "Não é possível votar em uma sessão fechada";
+        String actualMessage = exception.getMessage();
+
+        assertThat(expectedMessage).isEqualTo(actualMessage);
+
     }
 }

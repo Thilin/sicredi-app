@@ -141,4 +141,18 @@ public class SessionServiceTest {
         List<SessionListDTO> dtos = sessionService.findAll();
         assertThat(dtos.size()).isEqualTo(2);
     }
+
+    @Test
+    @DisplayName("Should open a session by id")
+    public void shouldOpenASession(){
+        Long sessionId = 1L;
+        var schedule = Schedule.builder().id(1L).build();
+        Mockito.when(scheduleRepository.findById(1L)).thenReturn(Optional.of(schedule));
+        var session = Session.builder().id(sessionId).isOpen(true).duration(5L).schedule(schedule).build();
+        Mockito.when(sessionRepository.findById(sessionId)).thenReturn(Optional.of(session));
+
+        sessionService.openSession(sessionId);
+
+        assertThat(session.isOpen()).isTrue();
+    }
 }

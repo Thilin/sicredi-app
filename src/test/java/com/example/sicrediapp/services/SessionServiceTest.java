@@ -1,6 +1,7 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.SessionCreateDTO;
+import com.example.sicrediapp.api.dtos.SessionListDTO;
 import com.example.sicrediapp.api.exceptions.InvalidSessionDurationException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
@@ -17,6 +18,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -119,5 +122,23 @@ public class SessionServiceTest {
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);
+    }
+
+    @Test
+    @DisplayName("Should return a list of sessions")
+    public void shouldReturnAssociateListsTest(){
+
+        var schedule1 = Schedule.builder().id(1L).build();
+        var schedule2 = Schedule.builder().id(2L).build();
+        var session1 = Session.builder().id(1L).schedule(schedule1).build();
+        var session2 = Session.builder().id(2L).schedule(schedule2).build();
+        List<Session> sessions = new ArrayList<>();
+        sessions.add(session1);
+        sessions.add(session2);
+
+        Mockito.when(sessionRepository.findAll()).thenReturn(sessions);
+
+        List<SessionListDTO> dtos = sessionService.findAll();
+        assertThat(dtos.size()).isEqualTo(2);
     }
 }

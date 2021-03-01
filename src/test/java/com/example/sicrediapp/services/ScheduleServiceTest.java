@@ -1,6 +1,7 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
+import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.services.impl.ScheduleServiceImpl;
@@ -57,5 +58,17 @@ public class ScheduleServiceTest {
         var dto = scheduleService.findById(id);
 
         assertThat(dto.getDescription()).isEqualTo(schedule.getDescription());
+    }
+
+    @Test
+    @DisplayName("Should not return a non-existing schedule ")
+    public void shouldNotFindAssociateByIdTest(){
+        Long id = 1L;
+
+        Exception exception = org.junit.jupiter.api.Assertions.assertThrows(ObjectNotFoundException.class, () -> scheduleService.findById(id));
+        String expectedMessage = "Pauta não encontrada.";
+        String actualMessage = exception.getMessage();
+
+        assertThat(expectedMessage).isEqualTo(actualMessage);
     }
 }

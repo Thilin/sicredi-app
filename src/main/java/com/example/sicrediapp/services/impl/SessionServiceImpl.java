@@ -9,10 +9,15 @@ import com.example.sicrediapp.model.entity.Session;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.services.SessionService;
+import com.example.sicrediapp.services.VotationService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +28,9 @@ public class SessionServiceImpl implements SessionService {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
+
+    @Autowired
+    private VotationService votationService;
 
     @Override
     public void save(SessionCreateDTO dto) {
@@ -62,9 +70,26 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void openSession(Long id) {
+    public void openSession(Long id){
         var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Sessão não encontrada"));
         session.setOpen(true);
         sessionRepository.save(session);
+        finishSession(session);
+    }
+
+    private void finishSession(Session session){
+        new Thread(new Runnable() {
+
+            @SneakyThrows
+            @Override
+            public void run(){
+            int delay = (int) (1000*60*session.getDuration());
+            Thread.sleep(delay);
+            session.setOpen(false);
+            sessionRepository.save(session);
+            votationService.countVotes(session.getId());
+            }
+
+        }).start();
     }
 }

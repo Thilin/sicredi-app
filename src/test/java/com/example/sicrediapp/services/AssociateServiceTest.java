@@ -5,6 +5,8 @@ import com.example.sicrediapp.api.dtos.AssociateListDTO;
 import com.example.sicrediapp.api.exceptions.DuplicateCPFException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Associate;
+import com.example.sicrediapp.model.entity.Session;
+import com.example.sicrediapp.model.entity.Votation;
 import com.example.sicrediapp.model.repositories.AssociateRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
@@ -102,7 +104,7 @@ public class AssociateServiceTest {
 
     @Test
     @DisplayName("Should return an exception when try to save an associate with duplicated CPF")
-    public void shouldNotBeAbleToSaveAssociateWithDuplicatedCPF() {
+    public void shouldNotBeAbleToSaveAssociateWithDuplicatedCPFTest() {
         var associate = Associate.builder().name("Fulano").cpf("12345678900").build();
         var dto = AssociateDTO.builder().name("Fulano").cpf("12345678900").build();
         var savedAssociate = Associate.builder().id(1L).name("Fulano").cpf("12345678900").build();
@@ -113,5 +115,26 @@ public class AssociateServiceTest {
         assertThat(exception).isInstanceOf(DuplicateCPFException.class).hasMessage("O CPF já existe na base de dados");
 
         Mockito.verify(associateRepository, Mockito.never()).save(associate);
+    }
+
+    @Test
+    @DisplayName("Should vote with sucess")
+    public void shouldVoteWithSuccessTest(){
+        boolean vote = false;
+        var session = Session.builder().id(1L).isOpen(true).build();
+        Mockito.when(sessionRepository.findById(1L)).thenReturn(Optional.of(session));
+        var associate = Associate.builder().id(1L).build();
+        Mockito.when(associateRepository.findById(1L)).thenReturn(Optional.of(associate));
+
+        var votation = Votation.builder().associate(associate).vote(vote).session(session).build();
+        var savedVotation = Votation.builder().id(1L).associate(associate).vote(vote).session(session).build();
+
+        Mockito.when(votationRepository.save(votation)).thenReturn(savedVotation);
+
+        associateService.vote(session.getId(), vote, associate.getId());
+
+        assertThat(savedVotation.getId()).isNotNull();
+        assertThat(session.isOpen()).isTrue();
+        assertThat(savedVotation.getVote()).isNotNull();
     }
 }

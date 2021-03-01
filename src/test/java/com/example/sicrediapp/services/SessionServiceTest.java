@@ -1,6 +1,7 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.SessionCreateDTO;
+import com.example.sicrediapp.api.exceptions.InvalidSessionDurationException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.entity.Session;
@@ -87,6 +88,20 @@ public class SessionServiceTest {
         Long id = 1L;
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(ObjectNotFoundException.class, () -> sessionService.findById(id));
         String expectedMessage = "Sessão não encontrada";
+        String actualMessage = exception.getMessage();
+
+        assertThat(expectedMessage).isEqualTo(actualMessage);
+    }
+
+    @Test
+    @DisplayName("Should return an exception when try to create a session that lasts less than 1 minute ")
+    public void shouldReturnSessionDurationExceptionTest(){
+
+        var session = SessionCreateDTO.builder().duration(0L).build();
+
+        Exception exception = org.junit.jupiter.api.Assertions.assertThrows(InvalidSessionDurationException.class, () -> sessionService.save(session));
+
+        String expectedMessage = "A duração da sessão não pode ser menor que 1 minuto";
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);

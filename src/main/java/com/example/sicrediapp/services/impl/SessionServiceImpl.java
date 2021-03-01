@@ -11,26 +11,23 @@ import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.services.SessionService;
 import com.example.sicrediapp.services.VotationService;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 @Service
 public class SessionServiceImpl implements SessionService {
 
-    @Autowired
-    private SessionRepository sessionRepository;
+    SessionRepository sessionRepository;
+    ScheduleRepository scheduleRepository;
+    VotationService votationService;
 
-    @Autowired
-    private ScheduleRepository scheduleRepository;
-
-    @Autowired
-    private VotationService votationService;
+    public SessionServiceImpl(SessionRepository sessionRepository, ScheduleRepository scheduleRepository, VotationService votationService){
+        this.sessionRepository = sessionRepository;
+        this.scheduleRepository = scheduleRepository;
+        this.votationService = votationService;
+    }
 
     @Override
     public void save(SessionCreateDTO dto) {

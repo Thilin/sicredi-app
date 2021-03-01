@@ -3,7 +3,6 @@ package com.example.sicrediapp.api.controllers;
 import com.example.sicrediapp.api.dtos.*;
 import com.example.sicrediapp.services.SessionService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +13,11 @@ import java.util.List;
 @RequestMapping(value = "/sessions")
 public class SessionController {
 
-    @Autowired
     SessionService sessionService;
+
+    public SessionController(SessionService sessionService){
+        this.sessionService = sessionService;
+    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json", produces = "application/json")

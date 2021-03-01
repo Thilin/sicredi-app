@@ -13,11 +13,7 @@ import com.example.sicrediapp.model.repositories.VotationRepository;
 import com.example.sicrediapp.services.AssociateService;
 import com.example.sicrediapp.services.CheckCPFService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;

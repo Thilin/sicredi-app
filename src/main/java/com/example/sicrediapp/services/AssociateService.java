@@ -11,4 +11,6 @@ public interface AssociateService {
     AssociateDTO findById(Long id);
 
     List<AssociateListDTO> findAll();
+
+    void vote(Long sessionId, boolean vote, Long associateId);
 }

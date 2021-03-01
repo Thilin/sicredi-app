@@ -6,6 +6,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class SessionListDTO {
 
     @Schema(description = "session's id", example = "1")

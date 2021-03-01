@@ -2,12 +2,14 @@ package com.example.sicrediapp.api.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class SessionCreateDTO {
 
     @Schema(description = "session's duration. In minutes", example = "3", defaultValue = "1")

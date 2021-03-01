@@ -1,10 +1,6 @@
 package com.example.sicrediapp.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "TB_SESSION")
+@Builder
 public class Session {
 
     @Id

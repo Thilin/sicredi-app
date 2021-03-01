@@ -1,7 +1,10 @@
 package com.example.sicrediapp.services;
 
+import com.example.sicrediapp.api.dtos.AssociateListDTO;
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
+import com.example.sicrediapp.api.dtos.ScheduleListDTO;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
+import com.example.sicrediapp.model.entity.Associate;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.services.impl.ScheduleServiceImpl;
@@ -14,6 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -70,5 +75,21 @@ public class ScheduleServiceTest {
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);
+    }
+
+    @Test
+    @DisplayName("Should return a list of associates")
+    public void shouldReturnAssociateListsTest(){
+
+        var schedule1 = Schedule.builder().id(1L).description("Dividendos").build();
+        var schedule2 = Schedule.builder().id(2L).description("Crédito").build();
+        List<Schedule> schedules = new ArrayList<>();
+        schedules.add(schedule1);
+        schedules.add(schedule2);
+
+        Mockito.when(scheduleRepository.findAll()).thenReturn(schedules);
+
+        List<ScheduleListDTO> dtos = scheduleService.findAll();
+        assertThat(dtos.size()).isEqualTo(2);
     }
 }

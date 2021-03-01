@@ -87,7 +87,9 @@ public class SessionServiceImpl implements SessionService {
             Thread.sleep(delay);
             session.setOpen(false);
             sessionRepository.save(session);
-            votationService.countVotes(session.getId());
+            var voteCount = votationService.countVotes(session.getId());
+            System.out.println("Votos SIM: "+voteCount.getVotesYes());
+            System.out.println("Votos NÃO: "+voteCount.getVotesNo());
             }
 
         }).start();

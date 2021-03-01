@@ -2,28 +2,22 @@ package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.AssociateDTO;
 import com.example.sicrediapp.api.dtos.AssociateListDTO;
-import com.example.sicrediapp.api.dtos.ScheduleDTO;
+import com.example.sicrediapp.api.exceptions.DuplicateCPFException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Associate;
-import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.AssociateRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
 import com.example.sicrediapp.services.impl.AssociateServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
@@ -104,5 +98,20 @@ public class AssociateServiceTest {
 
         List<AssociateListDTO> dtos = associateService.findAll();
         assertThat(dtos.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("Should return an exception when try to save an associate with duplicated CPF")
+    public void shouldNotBeAbleToSaveAssociateWithDuplicatedCPF() {
+        var associate = Associate.builder().name("Fulano").cpf("12345678900").build();
+        var dto = AssociateDTO.builder().name("Fulano").cpf("12345678900").build();
+        var savedAssociate = Associate.builder().id(1L).name("Fulano").cpf("12345678900").build();
+        Mockito.when(associateRepository.existsByCpf(Mockito.anyString())).thenReturn(true);
+
+        Throwable exception = org.assertj.core.api.Assertions.catchThrowable(() -> associateService.save(dto));
+
+        assertThat(exception).isInstanceOf(DuplicateCPFException.class).hasMessage("O CPF já existe na base de dados");
+
+        Mockito.verify(associateRepository, Mockito.never()).save(associate);
     }
 }

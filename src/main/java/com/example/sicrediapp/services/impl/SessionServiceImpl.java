@@ -75,20 +75,18 @@ public class SessionServiceImpl implements SessionService {
     }
 
     private void finishSession(Session session){
-        new Thread(new Runnable() {
-
-            @SneakyThrows
-            @Override
-            public void run(){
-            int delay = (int) (1000*60*session.getDuration());
-            Thread.sleep(delay);
-            session.setOpen(false);
-            sessionRepository.save(session);
-            var voteCount = votationService.countVotes(session.getId());
-            System.out.println("Votos SIM: "+voteCount.getVotesYes());
-            System.out.println("Votos NÃO: "+voteCount.getVotesNo());
+        new Thread(() -> {
+        int delay = (int) (1000*60*session.getDuration());
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
+            session.setOpen(false);
+        sessionRepository.save(session);
+        var voteCount = votationService.countVotes(session.getId());
+        System.out.println("Votos SIM: "+voteCount.getVotesYes());
+        System.out.println("Votos NÃO: "+voteCount.getVotesNo());
         }).start();
     }
 }

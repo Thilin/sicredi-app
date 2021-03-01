@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -87,5 +88,21 @@ public class AssociateServiceTest {
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);
+    }
+
+    @Test
+    @DisplayName("Should return a list of associates")
+    public void shouldReturnAssociateListsTest(){
+
+        var associate1 = Associate.builder().id(1L).name("Fulano").cpf("12345678900").build();
+        var associate2 = Associate.builder().id(2L).name("Beltrano").cpf("12345678901").build();
+        List<Associate> associates = new ArrayList<>();
+        associates.add(associate1);
+        associates.add(associate2);
+
+        Mockito.when(associateRepository.findAll()).thenReturn(associates);
+
+        List<AssociateListDTO> dtos = associateService.findAll();
+        assertThat(dtos.size()).isEqualTo(2);
     }
 }

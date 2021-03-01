@@ -1,6 +1,7 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.SessionCreateDTO;
+import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.entity.Session;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
@@ -62,7 +63,7 @@ public class SessionServiceTest {
 
     @Test
     @DisplayName("Should return a session by Id")
-    public void shouldFindSessionById(){
+    public void shouldFindSessionByIdTest(){
         Long id = 1L;
         var schedule = Schedule.builder().description("Dividendos").build();
         var savedSchedule = Schedule.builder().id(1L).description("Dividendos").build();
@@ -78,5 +79,16 @@ public class SessionServiceTest {
 
         assertThat(dto.getDuration()).isEqualTo(session.getDuration());
         assertThat(dto.getScheduleId()).isEqualTo(session.getSchedule().getId());
+    }
+
+    @Test
+    @DisplayName("Should return an exception when try to find a non-existing session")
+    public void shouldReturnNotFoundSessionExceptionTest(){
+        Long id = 1L;
+        Exception exception = org.junit.jupiter.api.Assertions.assertThrows(ObjectNotFoundException.class, () -> sessionService.findById(id));
+        String expectedMessage = "Sessão não encontrada";
+        String actualMessage = exception.getMessage();
+
+        assertThat(expectedMessage).isEqualTo(actualMessage);
     }
 }

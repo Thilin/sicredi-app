@@ -3,6 +3,7 @@ package com.example.sicrediapp.services;
 import com.example.sicrediapp.api.dtos.AssociateDTO;
 import com.example.sicrediapp.api.dtos.AssociateListDTO;
 import com.example.sicrediapp.api.exceptions.DuplicateCPFException;
+import com.example.sicrediapp.api.exceptions.DuplicateVoteSameSessionException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.api.exceptions.SessionClosedException;
 import com.example.sicrediapp.model.entity.Associate;
@@ -155,5 +156,24 @@ public class AssociateServiceTest {
 
         assertThat(expectedMessage).isEqualTo(actualMessage);
 
+    }
+
+    @Test
+    @DisplayName("Throws an exception when a same associate tries to vote on the same session twice")
+    public void shouldThrowDuplicatedVoteSameSessionExceptionTest(){
+        boolean vote = false;
+        var session = Session.builder().id(1L).isOpen(true).build();
+        Mockito.when(sessionRepository.findById(1L)).thenReturn(Optional.of(session));
+        var associate = Associate.builder().id(1L).build();
+        Mockito.when(associateRepository.findById(1L)).thenReturn(Optional.of(associate));
+        var votation = Votation.builder().session(session).vote(vote).associate(associate).build();
+
+        Mockito.when(votationRepository.findBySessionIdAndAssociateId(session.getId(), associate.getId())).thenReturn(votation);
+
+        Exception exception = org.junit.jupiter.api.Assertions.assertThrows(DuplicateVoteSameSessionException.class, () -> associateService.vote(session.getId(), vote, associate.getId()));
+        String expectedMessage = "Um associado não pode votar mais de uma vez numa mesma sessão";
+        String actualMessage = exception.getMessage();
+
+        assertThat(expectedMessage).isEqualTo(actualMessage);
     }
 }

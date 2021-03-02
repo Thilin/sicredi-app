@@ -14,6 +14,5 @@ public class CheckCPFServiceImpl implements CheckCPFService {
         ResponseEntity<String> response = restTemplate.getForEntity(checkcpfurl + cpf, String.class);
         if(response.getBody().contains("UNABLE_TO_VOTE"))
             throw new UnableToVoteException("Associado não pode votar");
-        System.out.println(response.getBody());
     }
 }

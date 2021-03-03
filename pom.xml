@@ -107,7 +107,8 @@
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>2.2.0</version>
 				<configuration>
-					<project>wotvpvpstats</project>
+					<projectId>wotvpvpstats</projectId>
+					<version>1</version>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -17,10 +17,10 @@ public class Votation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "VOT_ID")
+    @Column(name = "VOT_ID", nullable = false)
     private Long id;
 
-    @Column(name = "VOT_VOTE")
+    @Column(name = "VOT_VOTE", columnDefinition = "tinyint", nullable = false)
     private Boolean vote;
 
     @ManyToOne(fetch = FetchType.LAZY)

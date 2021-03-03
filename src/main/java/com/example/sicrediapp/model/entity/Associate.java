@@ -17,10 +17,10 @@ public class Associate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ACD_ID")
+    @Column(name = "ACD_ID", nullable = false)
     private Long id;
 
-    @Column(name = "ACD_CPF")
+    @Column(name = "ACD_CPF", nullable = false)
     private String cpf;
 
     @Column(name = "ACD_NAME")

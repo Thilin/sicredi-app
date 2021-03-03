@@ -6,6 +6,7 @@
 - Mysql 8
 - Open API 3
 - Apache Kafka
+- Spring Security
 ##Padrões
 - Conventional commits
 - MVC

@@ -11,6 +11,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/v3/api-docs/swagger-config#/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .and().cors().and().csrf().disable();
+                .and().cors().disable();
+
+        http.csrf().ignoringAntMatchers("/sessions/**", "/associates/**", "/schedules/**", "/votation/**");
     }
 }

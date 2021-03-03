@@ -1,7 +1,6 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.exceptions.CountVoteSessionOpenException;
-import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Session;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;

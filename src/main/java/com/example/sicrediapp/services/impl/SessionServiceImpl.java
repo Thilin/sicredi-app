@@ -10,7 +10,6 @@ import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.services.SessionService;
 import com.example.sicrediapp.services.VotationService;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

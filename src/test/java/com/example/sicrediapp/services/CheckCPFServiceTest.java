@@ -1,14 +1,10 @@
 package com.example.sicrediapp.services;
 
-import com.example.sicrediapp.api.exceptions.SessionClosedException;
-import com.example.sicrediapp.api.exceptions.UnableToVoteException;
 import com.example.sicrediapp.services.impl.CheckCPFServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;

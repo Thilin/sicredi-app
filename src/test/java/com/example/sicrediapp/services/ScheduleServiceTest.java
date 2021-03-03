@@ -1,10 +1,8 @@
 package com.example.sicrediapp.services;
 
-import com.example.sicrediapp.api.dtos.AssociateListDTO;
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
 import com.example.sicrediapp.api.dtos.ScheduleListDTO;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
-import com.example.sicrediapp.model.entity.Associate;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.services.impl.ScheduleServiceImpl;

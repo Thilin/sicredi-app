@@ -1,6 +1,5 @@
 package com.example.sicrediapp.api.controllers;
 
-import com.example.sicrediapp.api.dtos.SessionDTO;
 import com.example.sicrediapp.api.dtos.VoteCountDTO;
 import com.example.sicrediapp.services.VotationService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,3 +1,16 @@
+#Pojeto sicredi-app
+
+##Tecnologias
+- Java 11
+- Spring boot
+- Mysql 8
+- Open API 3
+##Padrões
+- Conventional commits
+- MVC
+- Testes unitários na camada de serviço
+- Gitflow
+- Documentação através da Open API 3
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Thilin_sicredi-app&metric=coverage)](https://sonarcloud.io/dashboard?id=Thilin_sicredi-app)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Thilin_sicredi-app&metric=bugs)](https://sonarcloud.io/dashboard?id=Thilin_sicredi-app)

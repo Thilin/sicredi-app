@@ -6,6 +6,7 @@ import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.services.impl.ScheduleServiceImpl;
+import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -69,7 +70,7 @@ public class ScheduleServiceTest {
         Long id = 1L;
 
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(ObjectNotFoundException.class, () -> scheduleService.findById(id));
-        String expectedMessage = "Pauta não encontrada.";
+        String expectedMessage = ExceptionsEnum.SCHEDULE_NOT_FOUND.getDescription();
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);

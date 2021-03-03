@@ -5,6 +5,7 @@ import com.example.sicrediapp.model.entity.Session;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
 import com.example.sicrediapp.services.impl.VotationServiceImpl;
+import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
+import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -60,7 +62,7 @@ public class VotationServiceTest {
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(CountVoteSessionOpenException.class,
                 () -> votationService.countVotes(session.getId()));
 
-        String expectedMessage = "Não é possível ter o resultado da votação durante uma sessão aberta";
+        String expectedMessage = COUNT_VOTE_SESSION_OPEN.getDescription();
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);

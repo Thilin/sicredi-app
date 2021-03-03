@@ -9,6 +9,7 @@ import com.example.sicrediapp.model.entity.Session;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.services.impl.SessionServiceImpl;
+import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -90,7 +92,7 @@ public class SessionServiceTest {
     public void shouldReturnNotFoundSessionExceptionTest(){
         Long id = 1L;
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(ObjectNotFoundException.class, () -> sessionService.findById(id));
-        String expectedMessage = "Sessão não encontrada";
+        String expectedMessage = SESSION_NOT_FOUND.getDescription();
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);
@@ -104,7 +106,7 @@ public class SessionServiceTest {
 
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(InvalidSessionDurationException.class, () -> sessionService.save(session));
 
-        String expectedMessage = "A duração da sessão não pode ser menor que 1 minuto";
+        String expectedMessage = INVALID_SESSION_DURATION.getDescription();
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);
@@ -118,7 +120,7 @@ public class SessionServiceTest {
 
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(ObjectNotFoundException.class, () -> sessionService.save(session));
 
-        String expectedMessage = "Pauta não encontrada";
+        String expectedMessage = SCHEDULE_NOT_FOUND.getDescription();
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);

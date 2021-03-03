@@ -13,6 +13,7 @@ import com.example.sicrediapp.model.repositories.AssociateRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
 import com.example.sicrediapp.services.impl.AssociateServiceImpl;
+import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
 
+import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
 import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -82,7 +84,7 @@ public class AssociateServiceTest {
         Long id = 1L;
 
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(ObjectNotFoundException.class, () -> associateService.findById(id));
-        String expectedMessage = "Associado não encontrado";
+        String expectedMessage = ASSOCIATE_NOT_FOUND.getDescription();
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);
@@ -114,7 +116,7 @@ public class AssociateServiceTest {
 
         Throwable exception = org.assertj.core.api.Assertions.catchThrowable(() -> associateService.save(dto));
 
-        assertThat(exception).isInstanceOf(DuplicateCPFException.class).hasMessage("O CPF já existe na base de dados");
+        assertThat(exception).isInstanceOf(DuplicateCPFException.class).hasMessage(DUPLICATE_CPF.getDescription());
 
         Mockito.verify(associateRepository, Mockito.never()).save(associate);
     }
@@ -151,7 +153,7 @@ public class AssociateServiceTest {
         Mockito.when(associateRepository.findById(1L)).thenReturn(Optional.of(associate));
 
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(SessionClosedException.class, () -> associateService.vote(session.getId(), vote, associate.getId()));
-        String expectedMessage = "Não é possível votar em uma sessão fechada";
+        String expectedMessage = SESSION_CLOSED.getDescription();
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);
@@ -171,7 +173,7 @@ public class AssociateServiceTest {
         Mockito.when(votationRepository.findBySessionIdAndAssociateId(session.getId(), associate.getId())).thenReturn(votation);
 
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(DuplicateVoteSameSessionException.class, () -> associateService.vote(session.getId(), vote, associate.getId()));
-        String expectedMessage = "Um associado não pode votar mais de uma vez numa mesma sessão";
+        String expectedMessage = DUPLICATE_VOTE_SAME_SESSION.getDescription();
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);

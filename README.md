@@ -24,3 +24,6 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Thilin_sicredi-app&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=Thilin_sicredi-app)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Thilin_sicredi-app&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=Thilin_sicredi-app)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Thilin_sicredi-app&metric=security_rating)](https://sonarcloud.io/dashboard?id=Thilin_sicredi-app)
+
+##OBS
+- Verificando o porque o SonarCloud não identifca a % da covertura de testes unitários.

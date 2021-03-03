@@ -1,5 +1,6 @@
 package com.example.sicrediapp.services.impl;
 
+import com.example.sicrediapp.services.KafkaDispatcherService;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public class KafkaDispatcherServiceImpl implements Closeable {
+public class KafkaDispatcherServiceImpl implements Closeable, KafkaDispatcherService {
     private final KafkaProducer<String, String> producer;
 
     KafkaDispatcherServiceImpl(){
@@ -27,7 +28,8 @@ public class KafkaDispatcherServiceImpl implements Closeable {
         return properties;
     }
 
-    void send(String topic, String value, String value1) {
+    @Override
+    public void send(String topic, String value, String value1) {
 
         var record = new ProducerRecord<>(topic, value, value1);
         try {

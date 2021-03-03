@@ -17,6 +17,7 @@
 ##Escolhas
 - Threads foram usadas para tratar a concorrência de sessões de votações abertas ao mesmo tempo e assim também como encerrar a sessão
 - Apache Kafka foi a solução para publicar uma mensagem que uma sessão foi encerrada por se tratar de uma tecnologia altamente usada no mercado.
+- Versionamento da API tratado por CI/CD com o Jenkins que facilita a automação de integração e entrega da aplicação. A versão altera conforme o que foi desenvolvido e aprovado pelo time de teste.
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Thilin_sicredi-app&metric=coverage)](https://sonarcloud.io/dashboard?id=Thilin_sicredi-app)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Thilin_sicredi-app&metric=bugs)](https://sonarcloud.io/dashboard?id=Thilin_sicredi-app)

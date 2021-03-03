@@ -27,4 +27,5 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Thilin_sicredi-app&metric=security_rating)](https://sonarcloud.io/dashboard?id=Thilin_sicredi-app)
 
 ##OBS
-- Verificando o porque o SonarCloud não identifca a % da covertura de testes unitários.
+- Investigando o porque o SonarCloud não identifca a % da covertura de testes unitários.
+- //IP do ApacheKafka rodando em uma VM separada no Windows. ALterar configuração de IP conforme o ambiente

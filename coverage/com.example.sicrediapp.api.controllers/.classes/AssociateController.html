@@ -1,0 +1,132 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AssociateController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.sicrediapp.api.controllers</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AssociateController (com.example.sicrediapp.api.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AssociateController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.sicrediapp.api.controllers;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.sicrediapp.api.dtos.AssociateDTO;
+<i>4</i>&nbsp;import com.example.sicrediapp.api.dtos.AssociateListDTO;
+<i>5</i>&nbsp;import com.example.sicrediapp.services.AssociateService;
+<i>6</i>&nbsp;import io.swagger.v3.oas.annotations.Operation;
+<i>7</i>&nbsp;import org.springframework.http.HttpStatus;
+<i>8</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import javax.validation.Valid;
+<i>11</i>&nbsp;import java.util.List;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;@RestController
+<i>14</i>&nbsp;@RequestMapping(value = &quot;/associates&quot;)
+<i>15</i>&nbsp;public class AssociateController {
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    private AssociateService associateService;
+<i>18</i>&nbsp;
+<b class="nc"><i>19</i>&nbsp;    public AssociateController(AssociateService associateService){</b>
+<b class="nc"><i>20</i>&nbsp;        this.associateService = associateService;</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @PostMapping(value = &quot;/register&quot;, consumes = &quot;application/json&quot;, produces = &quot;application/json&quot;)
+<i>24</i>&nbsp;    @Operation(summary = &quot;Register an associate&quot;, description = &quot;Register an associate to vote in a schedule&quot;)
+<i>25</i>&nbsp;    public void create(@RequestBody @Valid AssociateDTO dto){
+<b class="nc"><i>26</i>&nbsp;        associateService.save(dto);</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @ResponseStatus(HttpStatus.OK)
+<i>30</i>&nbsp;    @GetMapping(value = &quot;/{id}&quot;, produces = &quot;application/json&quot;)
+<i>31</i>&nbsp;    @Operation(summary = &quot;Find associate by id&quot;, description = &quot;Find an associate using its id&quot;)
+<i>32</i>&nbsp;    public AssociateDTO findById(@PathVariable Long id){
+<b class="nc"><i>33</i>&nbsp;        return associateService.findById(id);</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @ResponseStatus(HttpStatus.OK)
+<i>37</i>&nbsp;    @GetMapping(value = &quot;/all&quot;, produces = &quot;application/json&quot;)
+<i>38</i>&nbsp;    @Operation(summary = &quot;show all associates&quot;, description = &quot;Show all associates informations&quot;)
+<i>39</i>&nbsp;    public List&lt;AssociateListDTO&gt; findAll(){
+<b class="nc"><i>40</i>&nbsp;        return associateService.findAll();</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @ResponseStatus(HttpStatus.OK)
+<i>44</i>&nbsp;    @PutMapping(value = &quot;/session/{sessionId}&quot;, produces = &quot;application/json&quot;)
+<i>45</i>&nbsp;    @Operation(summary = &quot;Vote in a session&quot;, description = &quot;Vote in an opened session&quot;)
+<i>46</i>&nbsp;    public void openSession(@PathVariable Long sessionId, @RequestParam boolean vote, @RequestParam Long associateId){
+<b class="nc"><i>47</i>&nbsp;        associateService.vote(sessionId, vote, associateId);</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-03-02 21:43</div>
+</div>
+</body>
+</html>

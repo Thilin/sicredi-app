@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Votation</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.sicrediapp.model.entity</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Votation (com.example.sicrediapp.model.entity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Votation</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Votation$VotationBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.sicrediapp.model.entity;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import lombok.AllArgsConstructor;
+<i>4</i>&nbsp;import lombok.Builder;
+<i>5</i>&nbsp;import lombok.Data;
+<i>6</i>&nbsp;import lombok.NoArgsConstructor;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import javax.persistence.*;
+<i>9</i>&nbsp;
+<b class="fc"><i>10</i>&nbsp;@Data</b>
+<b class="fc"><i>11</i>&nbsp;@NoArgsConstructor</b>
+<b class="fc"><i>12</i>&nbsp;@AllArgsConstructor</b>
+<i>13</i>&nbsp;@Entity
+<i>14</i>&nbsp;@Table(name = &quot;TB_VOTATION&quot;)
+<b class="fc"><i>15</i>&nbsp;@Builder</b>
+<i>16</i>&nbsp;public class Votation {
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Id
+<i>19</i>&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<i>20</i>&nbsp;    @Column(name = &quot;VOT_ID&quot;, nullable = false)
+<b class="fc"><i>21</i>&nbsp;    private Long id;</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Column(name = &quot;VOT_VOTE&quot;, columnDefinition = &quot;tinyint&quot;, nullable = false)
+<b class="fc"><i>24</i>&nbsp;    private Boolean vote;</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY)
+<i>27</i>&nbsp;    @JoinColumn(name = &quot;VOT_ACD_ID&quot;, referencedColumnName = &quot;ACD_ID&quot;, nullable = false)
+<b class="fc"><i>28</i>&nbsp;    private Associate associate;</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @ManyToOne(fetch = FetchType.LAZY)
+<i>31</i>&nbsp;    @JoinColumn(name = &quot;VOT_SES_ID&quot;, referencedColumnName = &quot;SES_ID&quot;, nullable = false)
+<b class="fc"><i>32</i>&nbsp;    private Session session;</b>
+<i>33</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-03-02 21:43</div>
+</div>
+</body>
+</html>

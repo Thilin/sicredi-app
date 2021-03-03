@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AssociateServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.example.sicrediapp.services.impl</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AssociateServiceImpl (com.example.sicrediapp.services.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AssociateServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (40/ 40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.example.sicrediapp.services.impl;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.example.sicrediapp.api.dtos.AssociateDTO;
+<i>4</i>&nbsp;import com.example.sicrediapp.api.dtos.AssociateListDTO;
+<i>5</i>&nbsp;import com.example.sicrediapp.api.exceptions.DuplicateCPFException;
+<i>6</i>&nbsp;import com.example.sicrediapp.api.exceptions.DuplicateVoteSameSessionException;
+<i>7</i>&nbsp;import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
+<i>8</i>&nbsp;import com.example.sicrediapp.api.exceptions.SessionClosedException;
+<i>9</i>&nbsp;import com.example.sicrediapp.model.entity.Associate;
+<i>10</i>&nbsp;import com.example.sicrediapp.model.entity.Votation;
+<i>11</i>&nbsp;import com.example.sicrediapp.model.repositories.AssociateRepository;
+<i>12</i>&nbsp;import com.example.sicrediapp.model.repositories.SessionRepository;
+<i>13</i>&nbsp;import com.example.sicrediapp.model.repositories.VotationRepository;
+<i>14</i>&nbsp;import com.example.sicrediapp.services.AssociateService;
+<i>15</i>&nbsp;import com.example.sicrediapp.services.CheckCPFService;
+<i>16</i>&nbsp;import org.springframework.stereotype.Service;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import java.util.List;
+<i>19</i>&nbsp;import java.util.stream.Collectors;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;@Service
+<i>22</i>&nbsp;public class AssociateServiceImpl implements AssociateService {
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    private AssociateRepository associateRepository;
+<i>26</i>&nbsp;    private VotationRepository votationRepository;
+<i>27</i>&nbsp;    private SessionRepository sessionRepository;
+<i>28</i>&nbsp;    private CheckCPFService checkCPFService;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    public AssociateServiceImpl(AssociateRepository associateRepository, VotationRepository votationRepository,
+<b class="fc"><i>31</i>&nbsp;                                SessionRepository sessionRepository, CheckCPFService checkCPFService){</b>
+<b class="fc"><i>32</i>&nbsp;        this.associateRepository = associateRepository;</b>
+<b class="fc"><i>33</i>&nbsp;        this.votationRepository = votationRepository;</b>
+<b class="fc"><i>34</i>&nbsp;        this.sessionRepository = sessionRepository;</b>
+<b class="fc"><i>35</i>&nbsp;        this.checkCPFService = checkCPFService;</b>
+<b class="fc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @Override
+<i>39</i>&nbsp;    public void save(AssociateDTO dto) {
+<b class="fc"><i>40</i>&nbsp;        if(associateRepository.existsByCpf(dto.getCpf()))</b>
+<b class="fc"><i>41</i>&nbsp;            throw new DuplicateCPFException(&quot;O CPF j� existe na base de dados&quot;);</b>
+<b class="fc"><i>42</i>&nbsp;        var associate = new Associate();</b>
+<b class="fc"><i>43</i>&nbsp;        associate.setName(dto.getName());</b>
+<b class="fc"><i>44</i>&nbsp;        associate.setCpf(dto.getCpf());</b>
+<b class="fc"><i>45</i>&nbsp;        associateRepository.save(associate);</b>
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    @Override
+<i>49</i>&nbsp;    public AssociateDTO findById(Long id) {
+<b class="fc"><i>50</i>&nbsp;        var associate = associateRepository.findById(id).orElseThrow(() -&gt; new ObjectNotFoundException(&quot;Associado n�o encontrado&quot;));</b>
+<b class="fc"><i>51</i>&nbsp;        var dto = new AssociateDTO();</b>
+<b class="fc"><i>52</i>&nbsp;        dto.setCpf(associate.getCpf());</b>
+<b class="fc"><i>53</i>&nbsp;        dto.setName(associate.getName());</b>
+<b class="fc"><i>54</i>&nbsp;        return dto;</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    @Override
+<i>58</i>&nbsp;    public List&lt;AssociateListDTO&gt; findAll() {
+<b class="fc"><i>59</i>&nbsp;        List&lt;Associate&gt; associates = associateRepository.findAll();</b>
+<b class="fc"><i>60</i>&nbsp;        return associates.stream().map(associate -&gt; {</b>
+<b class="fc"><i>61</i>&nbsp;            var dto = new AssociateListDTO();</b>
+<b class="fc"><i>62</i>&nbsp;            dto.setName(associate.getName());</b>
+<b class="fc"><i>63</i>&nbsp;            dto.setId(associate.getId());</b>
+<b class="fc"><i>64</i>&nbsp;            dto.setCpf(associate.getCpf());</b>
+<b class="fc"><i>65</i>&nbsp;            return dto;</b>
+<b class="fc"><i>66</i>&nbsp;        }).collect(Collectors.toList());</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    @Override
+<i>70</i>&nbsp;    public void vote(Long sessionId, boolean vote, Long associateId) {
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;        var session = sessionRepository.findById(sessionId).orElseThrow(()-&gt; new ObjectNotFoundException(&quot;Sess�o n�o encontrada&quot;));</b>
+<b class="fc"><i>73</i>&nbsp;        if(!session.isOpen())</b>
+<b class="fc"><i>74</i>&nbsp;            throw new SessionClosedException(&quot;N�o � poss�vel votar em uma sess�o fechada&quot;);</b>
+<b class="fc"><i>75</i>&nbsp;        var votation = votationRepository.findBySessionIdAndAssociateId(sessionId, associateId);</b>
+<b class="fc"><i>76</i>&nbsp;        if(votation != null)</b>
+<b class="fc"><i>77</i>&nbsp;            throw new DuplicateVoteSameSessionException(&quot;Um associado n�o pode votar mais de uma vez numa mesma sess�o&quot;);</b>
+<i>78</i>&nbsp;        else {
+<b class="fc"><i>79</i>&nbsp;            var associate = associateRepository.findById(associateId).orElseThrow(()-&gt; new ObjectNotFoundException(&quot;Associado n�o encontrado&quot;));</b>
+<b class="fc"><i>80</i>&nbsp;            checkCPFService.checkCPF(associate.getCpf());</b>
+<b class="fc"><i>81</i>&nbsp;            votation = new Votation();</b>
+<b class="fc"><i>82</i>&nbsp;            votation.setSession(session);</b>
+<b class="fc"><i>83</i>&nbsp;            votation.setAssociate(associate);</b>
+<b class="fc"><i>84</i>&nbsp;            votation.setVote(vote);</b>
+<b class="fc"><i>85</i>&nbsp;            votationRepository.save(votation);</b>
+<i>86</i>&nbsp;        }
+<b class="fc"><i>87</i>&nbsp;    }</b>
+<i>88</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-03-02 21:43</div>
+</div>
+</body>
+</html>

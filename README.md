@@ -1,5 +1,7 @@
 #Pojeto sicredi-app
 
+- Link API na Nuvem: http://34.95.231.138:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#
+
 ##Tecnologias
 - Java 11
 - Spring boot
@@ -7,6 +9,7 @@
 - Open API 3
 - Apache Kafka
 - Spring Security
+- Google Cloud Patform
 ##Padrões
 - Conventional commits
 - MVC

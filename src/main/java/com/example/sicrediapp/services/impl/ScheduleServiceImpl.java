@@ -6,10 +6,13 @@ import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.services.ScheduleService;
+import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -28,7 +31,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ScheduleDTO findById(Long id) {
-        var schedule = scheduleRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Pauta não encontrada."));
+        var schedule = scheduleRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException(SCHEDULE_NOT_FOUND.getDescription()));
         var dto = new ScheduleDTO();
         dto.setDescription(schedule.getDescription());
         return dto;

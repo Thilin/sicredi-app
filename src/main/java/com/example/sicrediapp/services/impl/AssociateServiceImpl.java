@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
+
 @Service
 public class AssociateServiceImpl implements AssociateService {
 
@@ -38,7 +40,7 @@ public class AssociateServiceImpl implements AssociateService {
     @Override
     public void save(AssociateDTO dto) {
         if(associateRepository.existsByCpf(dto.getCpf()))
-            throw new DuplicateCPFException("O CPF já existe na base de dados");
+            throw new DuplicateCPFException(DUPLICATE_CPF.getDescription());
         var associate = new Associate();
         associate.setName(dto.getName());
         associate.setCpf(dto.getCpf());
@@ -47,7 +49,7 @@ public class AssociateServiceImpl implements AssociateService {
 
     @Override
     public AssociateDTO findById(Long id) {
-        var associate = associateRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Associado não encontrado"));
+        var associate = associateRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(ASSOCIATE_NOT_FOUND.getDescription()));
         var dto = new AssociateDTO();
         dto.setCpf(associate.getCpf());
         dto.setName(associate.getName());
@@ -69,14 +71,14 @@ public class AssociateServiceImpl implements AssociateService {
     @Override
     public void vote(Long sessionId, boolean vote, Long associateId) {
 
-        var session = sessionRepository.findById(sessionId).orElseThrow(()-> new ObjectNotFoundException("Sessão não encontrada"));
+        var session = sessionRepository.findById(sessionId).orElseThrow(()-> new ObjectNotFoundException(SESSION_NOT_FOUND.getDescription()));
         if(!session.isOpen())
-            throw new SessionClosedException("Não é possível votar em uma sessão fechada");
+            throw new SessionClosedException(SESSION_CLOSED.getDescription());
         var votation = votationRepository.findBySessionIdAndAssociateId(sessionId, associateId);
         if(votation != null)
-            throw new DuplicateVoteSameSessionException("Um associado não pode votar mais de uma vez numa mesma sessão");
+            throw new DuplicateVoteSameSessionException(DUPLICATE_VOTE_SAME_SESSION.getDescription());
         else {
-            var associate = associateRepository.findById(associateId).orElseThrow(()-> new ObjectNotFoundException("Associado não encontrado"));
+            var associate = associateRepository.findById(associateId).orElseThrow(()-> new ObjectNotFoundException(ASSOCIATE_NOT_FOUND.getDescription()));
             checkCPFService.checkCPF(associate.getCpf());
             votation = new Votation();
             votation.setSession(session);

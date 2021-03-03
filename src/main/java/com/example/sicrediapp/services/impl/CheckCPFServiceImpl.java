@@ -2,10 +2,13 @@ package com.example.sicrediapp.services.impl;
 import com.example.sicrediapp.api.exceptions.ExternalServiceUnavailableException;
 import com.example.sicrediapp.api.exceptions.UnableToVoteException;
 import com.example.sicrediapp.services.CheckCPFService;
+import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
 
 @Service
 public class CheckCPFServiceImpl implements CheckCPFService {
@@ -17,8 +20,8 @@ public class CheckCPFServiceImpl implements CheckCPFService {
         @NonNull
         ResponseEntity<String> response = restTemplate.getForEntity(checkcpfurl + cpf, String.class);
         if(response.getBody() == null)
-            throw new ExternalServiceUnavailableException("Nada retornou do serviço. Verificar com o provedor");
+            throw new ExternalServiceUnavailableException(EXTERNAL_SERVICE_UNAVAILABLE.getDescription());
         if(response.getBody().contains("UNABLE_TO_VOTE"))
-            throw new UnableToVoteException("Associado não pode votar");
+            throw new UnableToVoteException(UNABLE_TO_VOTE.getDescription());
     }
 }

@@ -5,7 +5,10 @@ import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
 import com.example.sicrediapp.services.VotationService;
+import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import org.springframework.stereotype.Service;
+
+import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
 
 @Service
 public class VotationServiceImpl implements VotationService {
@@ -20,9 +23,9 @@ public class VotationServiceImpl implements VotationService {
 
     @Override
     public VoteCountDTO countVotes(Long sessionId) {
-        var session = sessionRepository.findById(sessionId).orElseThrow(()-> new ObjectNotFoundException("Sessão não encontrada"));
+        var session = sessionRepository.findById(sessionId).orElseThrow(()-> new ObjectNotFoundException(SESSION_NOT_FOUND.getDescription()));
         if(session.isOpen())
-            throw new CountVoteSessionOpenException("Não é possível ter o resultado da votação durante uma sessão aberta");
+            throw new CountVoteSessionOpenException(COUNT_VOTE_SESSION_OPEN.getDescription());
 
         var dto = new VoteCountDTO();
         dto.setVotesYes(votationRepository.countBySessionIdAndVoteTrue(sessionId));

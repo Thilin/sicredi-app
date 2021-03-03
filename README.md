@@ -29,4 +29,4 @@
 ##OBS
 - Investigando o porque o SonarCloud não identifca a % da covertura de testes unitários.
 - IP do ApacheKafka rodando em uma VM separada no Windows. ALterar configuração de IP conforme o ambiente
-- É preciso criar um banco de dados "sicredi-app" antes de rodar a aplicação
+- É preciso criar um banco de dados "sicrediapp" antes de rodar a aplicação

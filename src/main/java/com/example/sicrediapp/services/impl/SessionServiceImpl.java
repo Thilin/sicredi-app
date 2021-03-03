@@ -84,8 +84,17 @@ public class SessionServiceImpl implements SessionService {
             session.setOpen(false);
             sessionRepository.save(session);
             var voteCount = votationService.countVotes(session.getId());
-            System.out.println("Votos SIM: "+voteCount.getVotesYes());
-            System.out.println("Votos NÃO: "+voteCount.getVotesNo());
+            var votesYes= voteCount.getVotesYes();
+            var votesNo = voteCount.getVotesNo();
+
+            var dispatcher = new KafkaDispatcherServiceImpl();
+            var value = "Sessão com id: " + session.getId()+ " encerrou.\n" +
+                    "Resultado:\n" +
+                    "Votos SIM: " + votesYes +"\n" +
+                    "Votos NÃO: " + votesNo + "\n";
+
+            dispatcher.send("SESSION_CLOSED", value, value);
+
         }).start();
     }
 }

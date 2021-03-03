@@ -5,6 +5,7 @@
 - Spring boot
 - Mysql 8
 - Open API 3
+- Apache Kafka
 ##Padrões
 - Conventional commits
 - MVC

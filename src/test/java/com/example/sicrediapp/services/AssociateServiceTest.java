@@ -13,7 +13,6 @@ import com.example.sicrediapp.model.repositories.AssociateRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
 import com.example.sicrediapp.services.impl.AssociateServiceImpl;
-import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
 
-import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
 import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -84,7 +83,7 @@ public class AssociateServiceTest {
         Long id = 1L;
 
         Exception exception = org.junit.jupiter.api.Assertions.assertThrows(ObjectNotFoundException.class, () -> associateService.findById(id));
-        String expectedMessage = ASSOCIATE_NOT_FOUND.getDescription();
+        String expectedMessage = RESOURCE_NOT_FOUND.getDescription();
         String actualMessage = exception.getMessage();
 
         assertThat(expectedMessage).isEqualTo(actualMessage);

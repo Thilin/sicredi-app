@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
 
 @Service
 public class AssociateServiceImpl implements AssociateService {
@@ -49,7 +49,7 @@ public class AssociateServiceImpl implements AssociateService {
 
     @Override
     public AssociateDTO findById(Long id) {
-        var associate = associateRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(ASSOCIATE_NOT_FOUND.getDescription()));
+        var associate = associateRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         var dto = new AssociateDTO();
         dto.setCpf(associate.getCpf());
         dto.setName(associate.getName());
@@ -71,14 +71,14 @@ public class AssociateServiceImpl implements AssociateService {
     @Override
     public void vote(Long sessionId, boolean vote, Long associateId) {
 
-        var session = sessionRepository.findById(sessionId).orElseThrow(()-> new ObjectNotFoundException(SESSION_NOT_FOUND.getDescription()));
+        var session = sessionRepository.findById(sessionId).orElseThrow(()-> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         if(!session.isOpen())
             throw new SessionClosedException(SESSION_CLOSED.getDescription());
         var votation = votationRepository.findBySessionIdAndAssociateId(sessionId, associateId);
         if(votation != null)
             throw new DuplicateVoteSameSessionException(DUPLICATE_VOTE_SAME_SESSION.getDescription());
         else {
-            var associate = associateRepository.findById(associateId).orElseThrow(()-> new ObjectNotFoundException(ASSOCIATE_NOT_FOUND.getDescription()));
+            var associate = associateRepository.findById(associateId).orElseThrow(()-> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
             checkCPFService.checkCPF(associate.getCpf());
             votation = new Votation();
             votation.setSession(session);

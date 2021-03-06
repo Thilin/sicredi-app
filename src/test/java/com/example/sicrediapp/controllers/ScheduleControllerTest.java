@@ -1,0 +1,138 @@
+package com.example.sicrediapp.controllers;
+
+import com.example.sicrediapp.api.controllers.ScheduleController;
+import com.example.sicrediapp.api.dtos.ScheduleDTO;
+import com.example.sicrediapp.api.dtos.ScheduleListDTO;
+import com.example.sicrediapp.api.dtos.ScheduleResponseDTO;
+import com.example.sicrediapp.services.ScheduleService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.util.Lists;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockServletContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.reactive.server.MockServerClientHttpResponse;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.SmartRequestBuilder;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
+@WebMvcTest(ScheduleController.class)
+@AutoConfigureMockMvc
+public class ScheduleControllerTest {
+
+    String SCHEDULE_API = "/schedules";
+
+    @InjectMocks
+    ScheduleController scheduleController;
+
+    @Autowired
+    MockMvc mvc;
+
+    @MockBean
+    private ScheduleService scheduleService;
+
+    @BeforeEach
+    public void setUp(){
+        this.scheduleController = new ScheduleController(scheduleService);
+    }
+
+    @Test
+    public void createScheduleTest(){
+
+        var request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+        var response = ScheduleResponseDTO.builder().id(1L).description("dividendos").build();
+        var dto = ScheduleDTO.builder().description("dividendos").build();
+        Mockito.when(scheduleService.save(dto)).thenReturn(response);
+        ResponseEntity<Void> responseEntity = scheduleController.create(dto);
+
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
+        assertThat(responseEntity.getHeaders().getLocation().getPath()).isEqualTo("/1");
+    }
+
+    @Test
+    @DisplayName("Should get a Schedule by id")
+    public void getScheduleByIdTest() throws Exception {
+        Long id = 1L;
+
+        var dto = ScheduleDTO.builder().description("Dividendos").build();
+
+        BDDMockito.given(scheduleService.findById(id)).willReturn(dto);
+
+        var request = MockMvcRequestBuilders
+                .get(SCHEDULE_API+"/"+id)
+                .accept(MediaType.APPLICATION_JSON);
+
+        mvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("description").value(dto.getDescription()));
+    }
+
+    @Test
+    @DisplayName("Should return Not Found when the schedule does not exists")
+    public void ScheduleNotFoundTest() throws Exception {
+
+        BDDMockito.given(scheduleService.findById(1L)).willReturn(null);
+
+        var request = MockMvcRequestBuilders
+                .get(SCHEDULE_API.concat("/1"))
+                .accept(MediaType.APPLICATION_JSON);
+
+        mvc.perform(request)
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Should get all Schedules")
+    public void getAllSchedulesTest() throws Exception {
+
+        List<ScheduleListDTO> list= new ArrayList<>();
+        var dto1 = ScheduleListDTO.builder().description("Dividendos").build();
+        var dto2 = ScheduleListDTO.builder().description("Crédito").build();
+        list.add(dto1);
+        list.add(dto2);
+
+        BDDMockito.given(scheduleService.findAll()).willReturn(list);
+
+        var request = MockMvcRequestBuilders
+                .get(SCHEDULE_API+"/all")
+                .accept(MediaType.APPLICATION_JSON);
+
+        mvc.perform(request)
+                .andExpect(status().isOk());
+    }
+}

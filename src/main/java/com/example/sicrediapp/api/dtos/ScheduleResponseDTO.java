@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotEmpty;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class ScheduleListDTO {
+public class ScheduleResponseDTO {
 
     @Schema(description = "Schedule's id", example = "1")
     private Long id;

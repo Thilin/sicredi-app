@@ -10,13 +10,12 @@ import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.services.SessionService;
 import com.example.sicrediapp.services.VotationService;
-import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
 
 @Service
 public class SessionServiceImpl implements SessionService {
@@ -39,7 +38,7 @@ public class SessionServiceImpl implements SessionService {
         var session = new Session();
         session.setDuration(dto.getDuration());
         session.setOpen(false);
-        var schedule = scheduleRepository.findById(dto.getScheduleId()).orElseThrow(() -> new ObjectNotFoundException(SCHEDULE_NOT_FOUND.getDescription()));
+        var schedule = scheduleRepository.findById(dto.getScheduleId()).orElseThrow(() -> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         session.setSchedule(schedule);
 
         sessionRepository.save(session);
@@ -48,7 +47,7 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public SessionDTO findById(Long id) {
         var dto = new SessionDTO();
-        var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(SESSION_NOT_FOUND.getDescription()));
+        var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         dto.setDuration(session.getDuration());
         dto.setOpen(session.isOpen());
         dto.setScheduleId(session.getSchedule().getId());
@@ -70,7 +69,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void openSession(Long id){
-        var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(SESSION_NOT_FOUND.getDescription()));
+        var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         session.setOpen(true);
         sessionRepository.save(session);
         finishSession(session);

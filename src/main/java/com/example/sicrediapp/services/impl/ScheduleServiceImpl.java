@@ -2,17 +2,17 @@ package com.example.sicrediapp.services.impl;
 
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
 import com.example.sicrediapp.api.dtos.ScheduleListDTO;
+import com.example.sicrediapp.api.dtos.ScheduleResponseDTO;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
 import com.example.sicrediapp.services.ScheduleService;
-import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -23,15 +23,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         this.scheduleRepository = scheduleRepository;
     }
     @Override
-    public void save(ScheduleDTO dto) {
+    public ScheduleResponseDTO save(ScheduleDTO dto) {
         var schedule = new Schedule();
         schedule.setDescription(dto.getDescription());
         scheduleRepository.save(schedule);
+        var responseDTO = new ScheduleResponseDTO();
+        responseDTO.setId(schedule.getId());
+        responseDTO.setDescription(schedule.getDescription());
+        return responseDTO;
     }
 
     @Override
     public ScheduleDTO findById(Long id) {
-        var schedule = scheduleRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException(SCHEDULE_NOT_FOUND.getDescription()));
+        var schedule = scheduleRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         var dto = new ScheduleDTO();
         dto.setDescription(schedule.getDescription());
         return dto;

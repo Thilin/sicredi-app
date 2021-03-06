@@ -2,13 +2,12 @@ package com.example.sicrediapp.services.impl;
 import com.example.sicrediapp.api.exceptions.ExternalServiceUnavailableException;
 import com.example.sicrediapp.api.exceptions.UnableToVoteException;
 import com.example.sicrediapp.services.CheckCPFService;
-import com.example.sicrediapp.services.utils.ExceptionsEnum;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import static com.example.sicrediapp.services.utils.ExceptionsEnum.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
 
 @Service
 public class CheckCPFServiceImpl implements CheckCPFService {

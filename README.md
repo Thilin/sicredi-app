@@ -1,6 +1,6 @@
 #Pojeto sicredi-app
 
-- Link API na Nuvem: http://34.95.231.138:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#
+- Link API na Nuvem: https://sicrediapp.herokuapp.com/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#
 
 ##Tecnologias
 - Java 11

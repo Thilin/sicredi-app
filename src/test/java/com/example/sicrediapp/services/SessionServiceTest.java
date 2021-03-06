@@ -1,7 +1,7 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.SessionCreateDTO;
-import com.example.sicrediapp.api.dtos.SessionListDTO;
+import com.example.sicrediapp.api.dtos.SessionResponseDTO;
 import com.example.sicrediapp.api.exceptions.InvalidSessionDurationException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
@@ -139,7 +139,7 @@ public class SessionServiceTest {
 
         Mockito.when(sessionRepository.findAll()).thenReturn(sessions);
 
-        List<SessionListDTO> dtos = sessionService.findAll();
+        List<SessionResponseDTO> dtos = sessionService.findAll();
         assertThat(dtos.size()).isEqualTo(2);
     }
 

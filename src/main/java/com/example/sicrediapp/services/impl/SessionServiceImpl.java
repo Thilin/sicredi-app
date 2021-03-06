@@ -1,8 +1,7 @@
 package com.example.sicrediapp.services.impl;
 
 import com.example.sicrediapp.api.dtos.SessionCreateDTO;
-import com.example.sicrediapp.api.dtos.SessionDTO;
-import com.example.sicrediapp.api.dtos.SessionListDTO;
+import com.example.sicrediapp.api.dtos.SessionResponseDTO;
 import com.example.sicrediapp.api.exceptions.InvalidSessionDurationException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Session;
@@ -31,7 +30,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void save(SessionCreateDTO dto) {
+    public SessionResponseDTO save(SessionCreateDTO dto) {
         if(dto.getDuration() < 1)
             throw new InvalidSessionDurationException(INVALID_SESSION_DURATION.getDescription());
 
@@ -42,23 +41,31 @@ public class SessionServiceImpl implements SessionService {
         session.setSchedule(schedule);
 
         sessionRepository.save(session);
+        var responseDTO = new SessionResponseDTO();
+        responseDTO.setId(session.getId());
+        responseDTO.setOpen(session.isOpen());
+        responseDTO.setDuration(session.getDuration());
+        responseDTO.setScheduleId(session.getSchedule().getId());
+
+        return responseDTO;
     }
 
     @Override
-    public SessionDTO findById(Long id) {
-        var dto = new SessionDTO();
+    public SessionResponseDTO findById(Long id) {
+        var dto = new SessionResponseDTO();
         var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         dto.setDuration(session.getDuration());
         dto.setOpen(session.isOpen());
         dto.setScheduleId(session.getSchedule().getId());
+        dto.setId(session.getId());
         return dto;
     }
 
     @Override
-    public List<SessionListDTO> findAll() {
+    public List<SessionResponseDTO> findAll() {
         List<Session> sessions = sessionRepository.findAll();
         return sessions.stream().map(session -> {
-            var dto = new SessionListDTO();
+            var dto = new SessionResponseDTO();
             dto.setId(session.getId());
             dto.setDuration(session.getDuration());
             dto.setOpen(session.isOpen());
@@ -68,11 +75,18 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void openSession(Long id){
+    public SessionResponseDTO openSession(Long id){
         var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         session.setOpen(true);
         sessionRepository.save(session);
+        var dto = new SessionResponseDTO();
+        dto.setId(session.getId());
+        dto.setOpen(session.isOpen());
+        dto.setDuration(session.getDuration());
+        dto.setScheduleId(session.getSchedule().getId());
         finishSession(session);
+
+        return dto;
     }
 
     private void finishSession(Session session){

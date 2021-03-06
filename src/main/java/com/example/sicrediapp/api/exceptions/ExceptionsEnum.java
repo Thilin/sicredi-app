@@ -6,6 +6,7 @@ import lombok.*;
 public enum ExceptionsEnum {
 
 
+    INVALID_DATA("/dados-invalidos", "Dados inválidos"),
     DUPLICATE_CPF("/cpf-duplicado", "O CPF já existe na base de dados"),
     RESOURCE_NOT_FOUND("/recurso-nao-encontrado", "Recurso não encontrado"),
     SESSION_CLOSED("/sessao-fechada", "Não é possível votar em uma sessão fechada"),

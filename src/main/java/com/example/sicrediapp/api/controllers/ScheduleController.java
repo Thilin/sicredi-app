@@ -33,7 +33,13 @@ public class ScheduleController {
     @GetMapping(value = "/{id}", produces = "application/json")
     @Operation(summary = "Find schedule by id", description = "Find an schedule using its id")
     public ResponseEntity<ScheduleResponseDTO> findById(@PathVariable Long id){
-        return ResponseEntity.ok().body(scheduleService.findById(id));
+        var dto = scheduleService.findById(id);
+        if(dto == null){
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            return ResponseEntity.ok().body(scheduleService.findById(id));
+        }
     }
 
     @GetMapping(value = "/all", produces = "application/json")

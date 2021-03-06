@@ -87,16 +87,15 @@ public class ScheduleControllerTest {
 
     @Test
     @DisplayName("Should return Not Found when the schedule does not exists")
-    public void ScheduleNotFoundTest() throws Exception {
+    public void ScheduleNotFoundTest(){
+        var request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+        var response = ScheduleResponseDTO.builder().id(1L).description("dividendos").build();
+        var dto = ScheduleDTO.builder().description("dividendos").build();
+        Mockito.when(scheduleService.findById(1L)).thenReturn(null);
 
-        BDDMockito.given(scheduleService.findById(1L)).willReturn(null);
-
-        var request = MockMvcRequestBuilders
-                .get(SCHEDULE_API.concat("/1"))
-                .accept(MediaType.APPLICATION_JSON);
-
-        mvc.perform(request)
-                .andExpect(status().isNotFound());
+        ResponseEntity<ScheduleResponseDTO> responseEntity = scheduleController.findById(1L);
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(404);
     }
 
     @Test

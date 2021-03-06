@@ -4,6 +4,7 @@ import com.example.sicrediapp.api.exceptions.CountVoteSessionOpenException;
 import com.example.sicrediapp.api.exceptions.DuplicateVoteSameSessionException;
 import com.example.sicrediapp.api.exceptions.SessionClosedException;
 import com.example.sicrediapp.model.entity.Associate;
+import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.entity.Session;
 import com.example.sicrediapp.model.entity.Votation;
 import com.example.sicrediapp.model.repositories.AssociateRepository;
@@ -83,7 +84,8 @@ public class VotationServiceTest {
     @DisplayName("Should vote with sucess")
     public void shouldVoteWithSuccessTest(){
         boolean vote = false;
-        var session = Session.builder().id(1L).isOpen(true).build();
+        var schedule = Schedule.builder().id(1L).build();
+        var session = Session.builder().id(1L).isOpen(true).schedule(schedule).build();
         Mockito.when(sessionRepository.findById(1L)).thenReturn(Optional.of(session));
         var associate = Associate.builder().id(1L).build();
         Mockito.when(associateRepository.findById(1L)).thenReturn(Optional.of(associate));

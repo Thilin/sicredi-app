@@ -42,7 +42,6 @@ public class SessionController {
         return ResponseEntity.ok().body(sessionService.findAll());
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/{id}", produces = "application/json")
     @Operation(summary = "Open a session", description = "Open a Session giving its id")
     public ResponseEntity<SessionResponseDTO> openSession(@PathVariable Long id){

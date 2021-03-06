@@ -1,9 +1,10 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.VoteCountDTO;
+import com.example.sicrediapp.api.dtos.VoteDTO;
 
 public interface VotationService {
     VoteCountDTO countVotes(Long sessionId);
 
-    void vote(Long sessionId, boolean vote, Long associateId);
+    VoteDTO vote(Long sessionId, boolean vote, Long associateId);
 }

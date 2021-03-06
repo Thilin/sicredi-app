@@ -1,5 +1,6 @@
 package com.example.sicrediapp.services.impl;
 import com.example.sicrediapp.api.dtos.VoteCountDTO;
+import com.example.sicrediapp.api.dtos.VoteDTO;
 import com.example.sicrediapp.api.exceptions.CountVoteSessionOpenException;
 import com.example.sicrediapp.api.exceptions.DuplicateVoteSameSessionException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
@@ -44,7 +45,8 @@ public class VotationServiceImpl implements VotationService {
     }
 
     @Override
-    public void vote(Long sessionId, boolean vote, Long associateId) {
+    public VoteDTO vote(Long sessionId, boolean vote, Long associateId) {
+        var dto = new VoteDTO();
 
         var session = sessionRepository.findById(sessionId).orElseThrow(()-> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         if(!session.isOpen())
@@ -60,6 +62,14 @@ public class VotationServiceImpl implements VotationService {
             votation.setAssociate(associate);
             votation.setVote(vote);
             votationRepository.save(votation);
+
+            if(vote)
+                dto.setVote("SIM");
+            dto.setAssociateId(associate.getId());
+            dto.setScheduleId(session.getSchedule().getId());
+            dto.setSessionId(session.getId());
         }
+
+        return dto;
     }
 }

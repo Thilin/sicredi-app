@@ -2,49 +2,32 @@ package com.example.sicrediapp.controllers;
 
 import com.example.sicrediapp.api.controllers.ScheduleController;
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
-import com.example.sicrediapp.api.dtos.ScheduleListDTO;
 import com.example.sicrediapp.api.dtos.ScheduleResponseDTO;
 import com.example.sicrediapp.services.ScheduleService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.util.Lists;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.reactive.server.MockServerClientHttpResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.SmartRequestBuilder;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
@@ -89,7 +72,7 @@ public class ScheduleControllerTest {
     public void getScheduleByIdTest() throws Exception {
         Long id = 1L;
 
-        var dto = ScheduleDTO.builder().description("Dividendos").build();
+        var dto = ScheduleResponseDTO.builder().description("Dividendos").build();
 
         BDDMockito.given(scheduleService.findById(id)).willReturn(dto);
 
@@ -120,9 +103,9 @@ public class ScheduleControllerTest {
     @DisplayName("Should get all Schedules")
     public void getAllSchedulesTest() throws Exception {
 
-        List<ScheduleListDTO> list= new ArrayList<>();
-        var dto1 = ScheduleListDTO.builder().description("Dividendos").build();
-        var dto2 = ScheduleListDTO.builder().description("Crédito").build();
+        List<ScheduleResponseDTO> list= new ArrayList<>();
+        var dto1 = ScheduleResponseDTO.builder().description("Dividendos").build();
+        var dto2 = ScheduleResponseDTO.builder().description("Crédito").build();
         list.add(dto1);
         list.add(dto2);
 

@@ -1,7 +1,6 @@
 package com.example.sicrediapp.services.impl;
 
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
-import com.example.sicrediapp.api.dtos.ScheduleListDTO;
 import com.example.sicrediapp.api.dtos.ScheduleResponseDTO;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
@@ -34,18 +33,19 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleDTO findById(Long id) {
+    public ScheduleResponseDTO findById(Long id) {
         var schedule = scheduleRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
-        var dto = new ScheduleDTO();
+        var dto = new ScheduleResponseDTO();
         dto.setDescription(schedule.getDescription());
+        dto.setId(schedule.getId());
         return dto;
     }
 
     @Override
-    public List<ScheduleListDTO> findAll() {
+    public List<ScheduleResponseDTO> findAll() {
         List<Schedule> schedules = scheduleRepository.findAll();
         return schedules.stream().map(schedule -> {
-            var dto = new ScheduleListDTO();
+            var dto = new ScheduleResponseDTO();
             dto.setId(schedule.getId());
             dto.setDescription(schedule.getDescription());
             return dto;

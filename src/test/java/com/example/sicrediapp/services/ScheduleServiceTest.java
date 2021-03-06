@@ -1,7 +1,7 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
-import com.example.sicrediapp.api.dtos.ScheduleListDTO;
+import com.example.sicrediapp.api.dtos.ScheduleResponseDTO;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
 import com.example.sicrediapp.model.entity.Schedule;
 import com.example.sicrediapp.model.repositories.ScheduleRepository;
@@ -88,7 +88,7 @@ public class ScheduleServiceTest {
 
         Mockito.when(scheduleRepository.findAll()).thenReturn(schedules);
 
-        List<ScheduleListDTO> dtos = scheduleService.findAll();
+        List<ScheduleResponseDTO> dtos = scheduleService.findAll();
         assertThat(dtos.size()).isEqualTo(2);
     }
 }

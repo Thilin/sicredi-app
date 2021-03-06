@@ -1,16 +1,14 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.AssociateDTO;
-import com.example.sicrediapp.api.dtos.AssociateListDTO;
+import com.example.sicrediapp.api.dtos.AssociateResponseDTO;
 
 import java.util.List;
 
 public interface AssociateService {
-    void save(AssociateDTO dto);
+    AssociateResponseDTO save(AssociateDTO dto);
 
-    AssociateDTO findById(Long id);
+    AssociateResponseDTO findById(Long id);
 
-    List<AssociateListDTO> findAll();
-
-    void vote(Long sessionId, boolean vote, Long associateId);
+    List<AssociateResponseDTO> findAll();
 }

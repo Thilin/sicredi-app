@@ -20,4 +20,11 @@ public class VotationController {
     public VoteCountDTO findById(@PathVariable Long sessionId){
         return votationService.countVotes(sessionId);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(value = "/session/{sessionId}", produces = "application/json")
+    @Operation(summary = "Vote in a session", description = "Vote in an opened session")
+    public void openSession(@PathVariable Long sessionId, @RequestParam boolean vote, @RequestParam Long associateId){
+        votationService.vote(sessionId, vote, associateId);
+    }
 }

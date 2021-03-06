@@ -1,14 +1,10 @@
 package com.example.sicrediapp.services;
 
 import com.example.sicrediapp.api.dtos.AssociateDTO;
-import com.example.sicrediapp.api.dtos.AssociateListDTO;
+import com.example.sicrediapp.api.dtos.AssociateResponseDTO;
 import com.example.sicrediapp.api.exceptions.DuplicateCPFException;
-import com.example.sicrediapp.api.exceptions.DuplicateVoteSameSessionException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
-import com.example.sicrediapp.api.exceptions.SessionClosedException;
 import com.example.sicrediapp.model.entity.Associate;
-import com.example.sicrediapp.model.entity.Session;
-import com.example.sicrediapp.model.entity.Votation;
 import com.example.sicrediapp.model.repositories.AssociateRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
@@ -49,7 +45,7 @@ public class AssociateServiceTest {
 
     @Test
     @DisplayName("Should create a new associate")
-    public void saveScheduleTest(){
+    void saveScheduleTest(){
         var associate = Associate.builder().name("Fulano").cpf("12345678900").build();
         var dto = AssociateDTO.builder().name("Fulano").cpf("12345678900").build();
         var savedAssociate = Associate.builder().id(1L).name("Fulano").cpf("12345678900").build();
@@ -101,7 +97,7 @@ public class AssociateServiceTest {
 
         Mockito.when(associateRepository.findAll()).thenReturn(associates);
 
-        List<AssociateListDTO> dtos = associateService.findAll();
+        List<AssociateResponseDTO> dtos = associateService.findAll();
         assertThat(dtos.size()).isEqualTo(2);
     }
 
@@ -118,63 +114,5 @@ public class AssociateServiceTest {
         assertThat(exception).isInstanceOf(DuplicateCPFException.class).hasMessage(DUPLICATE_CPF.getDescription());
 
         Mockito.verify(associateRepository, Mockito.never()).save(associate);
-    }
-
-    @Test
-    @DisplayName("Should vote with sucess")
-    public void shouldVoteWithSuccessTest(){
-        boolean vote = false;
-        var session = Session.builder().id(1L).isOpen(true).build();
-        Mockito.when(sessionRepository.findById(1L)).thenReturn(Optional.of(session));
-        var associate = Associate.builder().id(1L).build();
-        Mockito.when(associateRepository.findById(1L)).thenReturn(Optional.of(associate));
-
-        var votation = Votation.builder().associate(associate).vote(vote).session(session).build();
-        var savedVotation = Votation.builder().id(1L).associate(associate).vote(vote).session(session).build();
-
-        Mockito.when(votationRepository.save(votation)).thenReturn(savedVotation);
-
-        associateService.vote(session.getId(), vote, associate.getId());
-
-        assertThat(savedVotation.getId()).isNotNull();
-        assertThat(session.isOpen()).isTrue();
-        assertThat(savedVotation.getVote()).isNotNull();
-    }
-
-    @Test
-    @DisplayName("Should throw an exception when try to vote an the session is closed")
-    public void shouldThrowExceptionWhenVoteSessionClosedTest(){
-
-        boolean vote = false;
-        var session = Session.builder().id(1L).isOpen(false).build();
-        Mockito.when(sessionRepository.findById(1L)).thenReturn(Optional.of(session));
-        var associate = Associate.builder().id(1L).build();
-        Mockito.when(associateRepository.findById(1L)).thenReturn(Optional.of(associate));
-
-        Exception exception = org.junit.jupiter.api.Assertions.assertThrows(SessionClosedException.class, () -> associateService.vote(session.getId(), vote, associate.getId()));
-        String expectedMessage = SESSION_CLOSED.getDescription();
-        String actualMessage = exception.getMessage();
-
-        assertThat(expectedMessage).isEqualTo(actualMessage);
-
-    }
-
-    @Test
-    @DisplayName("Throws an exception when a same associate tries to vote on the same session twice")
-    public void shouldThrowDuplicatedVoteSameSessionExceptionTest(){
-        boolean vote = false;
-        var session = Session.builder().id(1L).isOpen(true).build();
-        Mockito.when(sessionRepository.findById(1L)).thenReturn(Optional.of(session));
-        var associate = Associate.builder().id(1L).build();
-        Mockito.when(associateRepository.findById(1L)).thenReturn(Optional.of(associate));
-        var votation = Votation.builder().session(session).vote(vote).associate(associate).build();
-
-        Mockito.when(votationRepository.findBySessionIdAndAssociateId(session.getId(), associate.getId())).thenReturn(votation);
-
-        Exception exception = org.junit.jupiter.api.Assertions.assertThrows(DuplicateVoteSameSessionException.class, () -> associateService.vote(session.getId(), vote, associate.getId()));
-        String expectedMessage = DUPLICATE_VOTE_SAME_SESSION.getDescription();
-        String actualMessage = exception.getMessage();
-
-        assertThat(expectedMessage).isEqualTo(actualMessage);
     }
 }

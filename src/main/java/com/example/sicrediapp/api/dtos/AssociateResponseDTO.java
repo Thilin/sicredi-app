@@ -6,7 +6,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AssociateListDTO {
+public class AssociateResponseDTO {
 
     @Schema(description = "Associate's id", example = "1")
     private Long id;

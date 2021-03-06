@@ -1,7 +1,7 @@
 package com.example.sicrediapp.services.impl;
 
 import com.example.sicrediapp.api.dtos.AssociateDTO;
-import com.example.sicrediapp.api.dtos.AssociateListDTO;
+import com.example.sicrediapp.api.dtos.AssociateResponseDTO;
 import com.example.sicrediapp.api.exceptions.DuplicateCPFException;
 import com.example.sicrediapp.api.exceptions.DuplicateVoteSameSessionException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
@@ -38,29 +38,36 @@ public class AssociateServiceImpl implements AssociateService {
     }
 
     @Override
-    public void save(AssociateDTO dto) {
+    public AssociateResponseDTO save(AssociateDTO dto) {
         if(associateRepository.existsByCpf(dto.getCpf()))
             throw new DuplicateCPFException(DUPLICATE_CPF.getDescription());
         var associate = new Associate();
         associate.setName(dto.getName());
         associate.setCpf(dto.getCpf());
         associateRepository.save(associate);
+
+        var responseDTO = new AssociateResponseDTO();
+        responseDTO.setId(associate.getId());
+        responseDTO.setCpf(associate.getCpf());
+        responseDTO.setName(associate.getName());
+        return responseDTO;
     }
 
     @Override
-    public AssociateDTO findById(Long id) {
+    public AssociateResponseDTO findById(Long id) {
         var associate = associateRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
-        var dto = new AssociateDTO();
+        var dto = new AssociateResponseDTO();
         dto.setCpf(associate.getCpf());
         dto.setName(associate.getName());
+        dto.setId(associate.getId());
         return dto;
     }
 
     @Override
-    public List<AssociateListDTO> findAll() {
+    public List<AssociateResponseDTO> findAll() {
         List<Associate> associates = associateRepository.findAll();
         return associates.stream().map(associate -> {
-            var dto = new AssociateListDTO();
+            var dto = new AssociateResponseDTO();
             dto.setName(associate.getName());
             dto.setId(associate.getId());
             dto.setCpf(associate.getCpf());
@@ -68,23 +75,4 @@ public class AssociateServiceImpl implements AssociateService {
         }).collect(Collectors.toList());
     }
 
-    @Override
-    public void vote(Long sessionId, boolean vote, Long associateId) {
-
-        var session = sessionRepository.findById(sessionId).orElseThrow(()-> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
-        if(!session.isOpen())
-            throw new SessionClosedException(SESSION_CLOSED.getDescription());
-        var votation = votationRepository.findBySessionIdAndAssociateId(sessionId, associateId);
-        if(votation != null)
-            throw new DuplicateVoteSameSessionException(DUPLICATE_VOTE_SAME_SESSION.getDescription());
-        else {
-            var associate = associateRepository.findById(associateId).orElseThrow(()-> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
-            checkCPFService.checkCPF(associate.getCpf());
-            votation = new Votation();
-            votation.setSession(session);
-            votation.setAssociate(associate);
-            votation.setVote(vote);
-            votationRepository.save(votation);
-        }
-    }
 }

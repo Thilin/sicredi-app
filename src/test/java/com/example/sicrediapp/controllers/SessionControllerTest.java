@@ -121,4 +121,20 @@ public class SessionControllerTest {
         mvc.perform(request)
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("Should open a Session")
+    public void openSessionTest(){
+        Long id = 1L;
+        var request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+        var response = SessionResponseDTO.builder().id(1L).duration(3L).scheduleId(1L).isOpen(false).build();
+        var dto = SessionCreateDTO.builder().duration(1L).scheduleId(1L).build();
+        Mockito.when(sessionService.openSession(id)).thenReturn(response);
+        ResponseEntity<SessionResponseDTO> responseEntity = sessionController.openSession(id);
+
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+        assertThat(responseEntity.getBody()).isEqualTo(response);
+    }
 }

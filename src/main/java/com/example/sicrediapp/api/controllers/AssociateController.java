@@ -34,7 +34,13 @@ public class AssociateController {
     @GetMapping(value = "/{id}", produces = "application/json")
     @Operation(summary = "Find associate by id", description = "Find an associate using its id")
     public ResponseEntity<AssociateResponseDTO> findById(@PathVariable Long id){
-        return ResponseEntity.ok().body(associateService.findById(id));
+        var dto = associateService.findById(id);
+        if(dto == null){
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            return ResponseEntity.ok().body(associateService.findById(id));
+        }
     }
 
     @GetMapping(value = "/all", produces = "application/json")

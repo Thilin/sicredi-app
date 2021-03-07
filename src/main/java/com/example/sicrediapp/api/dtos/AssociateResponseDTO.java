@@ -6,6 +6,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AssociateResponseDTO {
 
     @Schema(description = "Associate's id", example = "1")

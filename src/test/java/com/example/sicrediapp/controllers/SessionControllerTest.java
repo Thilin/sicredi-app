@@ -1,9 +1,9 @@
 package com.example.sicrediapp.controllers;
 
-import com.example.sicrediapp.api.controllers.AssociateController;
-import com.example.sicrediapp.api.dtos.AssociateDTO;
-import com.example.sicrediapp.api.dtos.AssociateResponseDTO;
-import com.example.sicrediapp.services.AssociateService;
+import com.example.sicrediapp.api.controllers.SessionController;
+import com.example.sicrediapp.api.dtos.SessionCreateDTO;
+import com.example.sicrediapp.api.dtos.SessionResponseDTO;
+import com.example.sicrediapp.services.SessionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,35 +35,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest(AssociateController.class)
+@WebMvcTest(SessionController.class)
 @AutoConfigureMockMvc
-public class AssociateControllerTest {
+public class SessionControllerTest {
 
-    String ASSOCIATE_API = "/associates";
+    String SESSION_API = "/sessions";
 
     @InjectMocks
-    AssociateController associateController;
+    SessionController sessionController;
 
     @Autowired
     MockMvc mvc;
 
     @MockBean
-    private AssociateService associateService;
+    private SessionService sessionService;
 
     @BeforeEach
     public void setUp(){
-        this.associateController = new AssociateController(associateService);
+        this.sessionController = new SessionController(sessionService);
     }
 
     @Test
-    @DisplayName("Should create an Associate")
-    public void createAssociateTest(){
+    @DisplayName("Should create a Session")
+    public void createSessionTest(){
+
         var request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        var response = AssociateResponseDTO.builder().id(1L).cpf("12345678900").build();
-        var dto = AssociateDTO.builder().cpf("12345678900").build();
-        Mockito.when(associateService.save(dto)).thenReturn(response);
-        ResponseEntity<Void> responseEntity = associateController.create(dto);
+        var response = SessionResponseDTO.builder().id(1L).duration(3L).scheduleId(1L).isOpen(false).build();
+        var dto = SessionCreateDTO.builder().duration(1L).scheduleId(1L).build();
+        Mockito.when(sessionService.save(dto)).thenReturn(response);
+        ResponseEntity<Void> responseEntity = sessionController.create(dto);
 
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
@@ -70,50 +72,50 @@ public class AssociateControllerTest {
     }
 
     @Test
-    @DisplayName("Should get a Associate by id")
-    public void getAssociateByIdTest() throws Exception {
+    @DisplayName("Should get a Session by id")
+    public void getSessioneByIdTest() throws Exception {
         Long id = 1L;
 
-        var dto = AssociateResponseDTO.builder().id(1L).cpf("12345678900").build();
+        var dto = SessionResponseDTO.builder().id(1L).duration(3L).scheduleId(1L).isOpen(false).build();
 
-        BDDMockito.given(associateService.findById(id)).willReturn(dto);
+        BDDMockito.given(sessionService.findById(id)).willReturn(dto);
 
         var request = MockMvcRequestBuilders
-                .get(ASSOCIATE_API+"/"+id)
+                .get(SESSION_API+"/"+id)
                 .accept(MediaType.APPLICATION_JSON);
 
         mvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("cpf").value(dto.getCpf()));
+                .andExpect(jsonPath("duration").value(dto.getDuration()));
     }
 
     @Test
-    @DisplayName("Should return Not Found when the associate does not exists")
-    public void AssociateNotFoundTest(){
+    @DisplayName("Should return Not Found when the session does not exists")
+    public void SessionNotFoundTest(){
         var request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        var response = AssociateResponseDTO.builder().id(1L).cpf("12345678900").build();
-        var dto = AssociateDTO.builder().cpf("12345678900").build();
-        Mockito.when(associateService.findById(1L)).thenReturn(null);
+        var response = SessionResponseDTO.builder().id(1L).duration(3L).scheduleId(1L).isOpen(false).build();
+        var dto = SessionCreateDTO.builder().duration(1L).scheduleId(1L).build();
+        Mockito.when(sessionService.findById(1L)).thenReturn(null);
 
-        ResponseEntity<AssociateResponseDTO> responseEntity = associateController.findById(1L);
+        ResponseEntity<SessionResponseDTO> responseEntity = sessionController.findById(1L);
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(404);
     }
 
     @Test
-    @DisplayName("Should get all Associates")
-    public void getAllAssociatesTest() throws Exception {
+    @DisplayName("Should get all Sessions")
+    public void getAllSessionsTest() throws Exception {
 
-        List<AssociateResponseDTO> list= new ArrayList<>();
-        var dto1 = AssociateResponseDTO.builder().id(1L).cpf("12345678900").build();
-        var dto2 = AssociateResponseDTO.builder().id(1L).cpf("12345678900").build();
+        List<SessionResponseDTO> list= new ArrayList<>();
+        var dto1 = SessionResponseDTO.builder().id(1L).duration(3L).scheduleId(1L).isOpen(false).build();
+        var dto2 = SessionResponseDTO.builder().id(2L).duration(3L).scheduleId(1L).isOpen(false).build();
         list.add(dto1);
         list.add(dto2);
 
-        BDDMockito.given(associateService.findAll()).willReturn(list);
+        BDDMockito.given(sessionService.findAll()).willReturn(list);
 
         var request = MockMvcRequestBuilders
-                .get(ASSOCIATE_API+"/all")
+                .get(SESSION_API+"/all")
                 .accept(MediaType.APPLICATION_JSON);
 
         mvc.perform(request)

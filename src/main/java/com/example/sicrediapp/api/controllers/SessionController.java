@@ -33,7 +33,13 @@ public class SessionController {
     @GetMapping(value = "/{id}", produces = "application/json")
     @Operation(summary = "Find session by id", description = "Find an session using its id")
     public ResponseEntity<SessionResponseDTO> findById(@PathVariable Long id){
-        return ResponseEntity.ok().body(sessionService.findById(id));
+        var dto = sessionService.findById(id);
+        if(dto == null){
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            return ResponseEntity.ok().body(sessionService.findById(id));
+        }
     }
 
     @GetMapping(value = "/all", produces = "application/json")

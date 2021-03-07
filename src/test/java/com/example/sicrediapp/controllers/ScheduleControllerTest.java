@@ -53,7 +53,7 @@ public class ScheduleControllerTest {
     }
 
     @Test
-    @DisplayName("SHould create a Schedule")
+    @DisplayName("Should create a Schedule")
     public void createScheduleTest(){
 
         var request = new MockHttpServletRequest();

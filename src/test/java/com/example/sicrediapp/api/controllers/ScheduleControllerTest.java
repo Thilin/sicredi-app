@@ -1,4 +1,4 @@
-package com.example.sicrediapp.controllers;
+package com.example.sicrediapp.api.controllers;
 
 import com.example.sicrediapp.api.controllers.ScheduleController;
 import com.example.sicrediapp.api.dtos.ScheduleDTO;

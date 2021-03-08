@@ -19,7 +19,7 @@ public class VotationController {
 
     @GetMapping(value = "/{sessionId}/result", produces = "application/json")
     @Operation(summary = "Show votation result", description = "Find a votation by id and show the vote count")
-    public ResponseEntity<VoteCountDTO> findById(@PathVariable Long sessionId){
+    public ResponseEntity<VoteCountDTO> votationResult(@PathVariable Long sessionId){
         var dto = votationService.countVotes(sessionId);
         if(dto == null){
             return ResponseEntity.notFound().build();

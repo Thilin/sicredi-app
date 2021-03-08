@@ -79,11 +79,14 @@ public class SessionServiceImpl implements SessionService {
         var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         session.setOpen(true);
         sessionRepository.save(session);
+        System.out.println("Sessão com id: " + session.getId()+ " abriu para votação.\n");
+
         var dto = new SessionResponseDTO();
         dto.setId(session.getId());
         dto.setOpen(session.isOpen());
         dto.setDuration(session.getDuration());
         dto.setScheduleId(session.getSchedule().getId());
+
         finishSession(session);
 
         return dto;

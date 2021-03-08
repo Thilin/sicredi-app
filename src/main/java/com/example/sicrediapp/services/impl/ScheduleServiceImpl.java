@@ -26,6 +26,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         var schedule = new Schedule();
         schedule.setDescription(dto.getDescription());
         scheduleRepository.save(schedule);
+
         var responseDTO = new ScheduleResponseDTO();
         responseDTO.setId(schedule.getId());
         responseDTO.setDescription(schedule.getDescription());

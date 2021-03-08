@@ -1,4 +1,4 @@
-package com.example.sicrediapp.controllers;
+package com.example.sicrediapp.api.controllers;
 
 import com.example.sicrediapp.api.controllers.VotationController;
 import com.example.sicrediapp.api.dtos.*;
@@ -66,7 +66,7 @@ public class VotationControllerTest {
         var dto = VoteCountDTO.builder().votesYes(3L).votesNo(1L).build();;
         Mockito.when(votationService.countVotes(1L)).thenReturn(dto);
 
-        ResponseEntity<VoteCountDTO> responseEntity = votationController.findById(sessionId);
+        ResponseEntity<VoteCountDTO> responseEntity = votationController.votationResult(sessionId);
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
 
     }
@@ -80,7 +80,7 @@ public class VotationControllerTest {
         var dto = new VoteCountDTO();
         Mockito.when(votationService.countVotes(1L)).thenReturn(null);
 
-        ResponseEntity<VoteCountDTO> responseEntity = votationController.findById(sessionId);
+        ResponseEntity<VoteCountDTO> responseEntity = votationController.votationResult(sessionId);
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(404);
     }
 

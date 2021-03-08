@@ -13,6 +13,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v3/api-docs/swagger-config#/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .and().cors().disable();
 
-        http.csrf().ignoringAntMatchers("/sessions/**", "/associates/**", "/schedules/**", "/votation/**");
+        http.csrf().ignoringAntMatchers("/sessions/**", "/associates/**", "/schedules/**", "/votations/**");
     }
 }

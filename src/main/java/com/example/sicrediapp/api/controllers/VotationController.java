@@ -36,7 +36,7 @@ public class VotationController {
         if (dto == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok().body(votationService.vote(sessionId, vote, associateId));
+            return ResponseEntity.ok().body(dto);
         }
     }
 }

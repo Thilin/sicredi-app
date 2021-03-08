@@ -33,6 +33,6 @@
 - Investigando o porque o SonarCloud não identifca a % da covertura de testes unitários.
 - IP do ApacheKafka rodando em uma VM separada no Windows. ALterar configuração de IP conforme o ambiente
 - Configuração de conexão do banco de dados já está apontando para o banco de dados na nuvem(GCP)
-- É preciso criar um banco de dados "sicrediapp" caso seja necessário apontar para um banco local.
+- É preciso criar um banco de dados "sicrediapp" e alterar a configuração no application.properties caso seja necessário apontar para um banco local.
 - Imagem Docker: https://hub.docker.com/repository/docker/fernandocauper/sicrediapp
 - Porta padrão da imagem do docker: 8080

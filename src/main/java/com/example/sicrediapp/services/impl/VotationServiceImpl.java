@@ -65,6 +65,8 @@ public class VotationServiceImpl implements VotationService {
 
             if(vote)
                 dto.setVote("SIM");
+            else
+                dto.setVote("NÃO");
             dto.setAssociateId(associate.getId());
             dto.setScheduleId(session.getSchedule().getId());
             dto.setSessionId(session.getId());

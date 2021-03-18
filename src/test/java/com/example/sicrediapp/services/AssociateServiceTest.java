@@ -18,10 +18,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
-import static org.assertj.core.api.Assertions.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.DUPLICATE_CPF;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.RESOURCE_NOT_FOUND;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")

@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.INVALID_SESSION_DURATION;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.RESOURCE_NOT_FOUND;
 
 @Service
 public class SessionServiceImpl implements SessionService {
@@ -79,7 +80,6 @@ public class SessionServiceImpl implements SessionService {
         var session = sessionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(RESOURCE_NOT_FOUND.getDescription()));
         session.setOpen(true);
         sessionRepository.save(session);
-        System.out.println("Sessão com id: " + session.getId()+ " abriu para votação.\n");
 
         var dto = new SessionResponseDTO();
         dto.setId(session.getId());

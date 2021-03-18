@@ -3,11 +3,8 @@ package com.example.sicrediapp.services.impl;
 import com.example.sicrediapp.api.dtos.AssociateDTO;
 import com.example.sicrediapp.api.dtos.AssociateResponseDTO;
 import com.example.sicrediapp.api.exceptions.DuplicateCPFException;
-import com.example.sicrediapp.api.exceptions.DuplicateVoteSameSessionException;
 import com.example.sicrediapp.api.exceptions.ObjectNotFoundException;
-import com.example.sicrediapp.api.exceptions.SessionClosedException;
 import com.example.sicrediapp.model.entity.Associate;
-import com.example.sicrediapp.model.entity.Votation;
 import com.example.sicrediapp.model.repositories.AssociateRepository;
 import com.example.sicrediapp.model.repositories.SessionRepository;
 import com.example.sicrediapp.model.repositories.VotationRepository;
@@ -18,7 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.DUPLICATE_CPF;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.RESOURCE_NOT_FOUND;
 
 @Service
 public class AssociateServiceImpl implements AssociateService {

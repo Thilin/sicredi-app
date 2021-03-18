@@ -41,10 +41,6 @@ public class VotationServiceImpl implements VotationService {
         dto.setVotesYes(votationRepository.countBySessionIdAndVoteTrue(sessionId));
         dto.setVotesNo(votationRepository.countBySessionIdAndVoteFalse(sessionId));
 
-        System.out.println("Resultado da votação: \n" +
-                "Votos SIM: "+dto.getVotesYes()+"\n" +
-                "Votos NÃO: "+dto.getVotesNo());
-
         return dto;
     }
 
@@ -75,7 +71,7 @@ public class VotationServiceImpl implements VotationService {
             dto.setScheduleId(session.getSchedule().getId());
             dto.setSessionId(session.getId());
         }
-        System.out.println("Associado com id: "+dto.getAssociateId()+" Votou "+ dto.getVote()+" na sessão com id: "+dto.getSessionId());
+
         return dto;
     }
 }

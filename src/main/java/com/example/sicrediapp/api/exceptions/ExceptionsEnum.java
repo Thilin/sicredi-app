@@ -1,6 +1,6 @@
 package com.example.sicrediapp.api.exceptions;
 
-import lombok.*;
+import lombok.Getter;
 
 @Getter
 public enum ExceptionsEnum {

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.RESOURCE_NOT_FOUND;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {

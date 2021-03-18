@@ -1,6 +1,5 @@
 package com.example.sicrediapp.api.controllers;
 
-import com.example.sicrediapp.api.controllers.VotationController;
 import com.example.sicrediapp.api.dtos.*;
 import com.example.sicrediapp.services.AssociateService;
 import com.example.sicrediapp.services.ScheduleService;

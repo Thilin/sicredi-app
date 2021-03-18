@@ -1,6 +1,5 @@
 package com.example.sicrediapp.api.controllers;
 
-import com.example.sicrediapp.api.controllers.SessionController;
 import com.example.sicrediapp.api.dtos.SessionCreateDTO;
 import com.example.sicrediapp.api.dtos.SessionResponseDTO;
 import com.example.sicrediapp.services.SessionService;
@@ -24,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 
 import java.util.ArrayList;
 import java.util.List;

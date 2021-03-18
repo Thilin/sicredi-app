@@ -1,6 +1,5 @@
 package com.example.sicrediapp.api.controllers;
 
-import com.example.sicrediapp.api.controllers.AssociateController;
 import com.example.sicrediapp.api.dtos.AssociateDTO;
 import com.example.sicrediapp.api.dtos.AssociateResponseDTO;
 import com.example.sicrediapp.services.AssociateService;

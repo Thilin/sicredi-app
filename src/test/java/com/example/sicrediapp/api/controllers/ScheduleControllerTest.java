@@ -1,6 +1,5 @@
 package com.example.sicrediapp.api.controllers;
 
-import com.example.sicrediapp.api.controllers.ScheduleController;
 import com.example.sicrediapp.api.dtos.ScheduleDTO;
 import com.example.sicrediapp.api.dtos.ScheduleResponseDTO;
 import com.example.sicrediapp.services.ScheduleService;
@@ -25,10 +24,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")

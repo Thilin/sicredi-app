@@ -1,9 +1,9 @@
 package com.example.sicrediapp.api.controllers;
 
-import com.example.sicrediapp.api.dtos.*;
+import com.example.sicrediapp.api.dtos.SessionCreateDTO;
+import com.example.sicrediapp.api.dtos.SessionResponseDTO;
 import com.example.sicrediapp.services.SessionService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

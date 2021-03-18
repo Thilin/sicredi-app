@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.*;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.INVALID_SESSION_DURATION;
+import static com.example.sicrediapp.api.exceptions.ExceptionsEnum.RESOURCE_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)

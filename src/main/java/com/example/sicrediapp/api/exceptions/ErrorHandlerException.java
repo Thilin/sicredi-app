@@ -1,7 +1,5 @@
 package com.example.sicrediapp.api.exceptions;
 
-import com.example.sicrediapp.model.entity.Session;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -19,7 +17,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.OffsetDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -4,6 +4,7 @@ import com.example.sicrediapp.api.dtos.AssociateDTO;
 import com.example.sicrediapp.api.dtos.AssociateResponseDTO;
 import com.example.sicrediapp.services.AssociateService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/associates")
+@Slf4j
 public class AssociateController {
 
     private AssociateService associateService;
@@ -25,6 +27,7 @@ public class AssociateController {
     @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
     @Operation(summary = "Register an associate", description = "Register an associate to vote in a schedule")
     public ResponseEntity<Void> create(@RequestBody @Valid AssociateDTO dto){
+        log.info("creating an associate for CPF: {}", dto.getCpf());
         var responseDTO = associateService.save(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(responseDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();

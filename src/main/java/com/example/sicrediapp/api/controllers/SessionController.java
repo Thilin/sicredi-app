@@ -4,6 +4,7 @@ import com.example.sicrediapp.api.dtos.SessionCreateDTO;
 import com.example.sicrediapp.api.dtos.SessionResponseDTO;
 import com.example.sicrediapp.services.SessionService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/sessions")
+@Slf4j
 public class SessionController {
 
     SessionService sessionService;
@@ -51,6 +53,7 @@ public class SessionController {
     @PutMapping(value = "/{id}", produces = "application/json")
     @Operation(summary = "Open a session", description = "Open a Session giving its id")
     public ResponseEntity<SessionResponseDTO> openSession(@PathVariable Long id){
+        log.info("Opening session with id: {}",id);
         return ResponseEntity.ok().body(sessionService.openSession(id));
     }
 }

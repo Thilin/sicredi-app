@@ -12,11 +12,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://sicredimysql:3306/sicrediapp?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-          - DATABASE_HOST=sicredi-mysql
-          - DATABASE_USER=sicrediuser
-          - DATABASE_PASSWORD=sicrediuserpassword
-          - DATABASE_NAME=sicrediapp
-          - DATABASE_PORT=3306
+
 
 
   sicredimysql:
@@ -25,7 +21,5 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=sicrediapp
-      - MYSQL_USER=sicrediuser
-      - MYSQL_USER=sicrediuserpassword
     ports:
       - 3306:3306

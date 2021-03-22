@@ -1,6 +1,7 @@
 #Pojeto sicredi-app
 
-- Link API na Nuvem: https://sicrediapp.herokuapp.com/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#
+
+- Link API na Nuvem: https://sicrediapp.herokuapp.com/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config# (OBSOLETO)
 
 ##Tecnologias
 - Java 11
@@ -10,12 +11,17 @@
 - Apache Kafka
 - Spring Security
 - Google Cloud Patform
+- Spring Actuator
+- Docker e Docker compose
 ##Padrões
 - Conventional commits
 - MVC
 - Testes unitários na camada de serviço
 - Gitflow
 - Documentação através da Open API 3
+
+##Rodando a aplicação dockerizada
+- Após clonar o projeto, utilizar o comando "docker-compose up" para subir o banco da aplicação em um container e em seguida subir a aplicação.
 
 ##Escolhas
 - Threads foram usadas para tratar a concorrência de sessões de votações abertas ao mesmo tempo e assim também como encerrar a sessão
